@@ -1,0 +1,2936 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+================================================================
+File Summary
+================================================================
+
+Purpose:
+--------
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+
+File Format:
+------------
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Multiple file entries, each consisting of:
+  a. A separator line (================)
+  b. The file path (File: path/to/file)
+  c. Another separator line
+  d. The full contents of the file
+  e. A blank line
+
+Usage Guidelines:
+-----------------
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+
+Notes:
+------
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+
+Additional Info:
+----------------
+
+================================================================
+Directory Structure
+================================================================
+.editorconfig
+.gitignore
+angular.json
+blog_data.sql
+package.json
+README.md
+src/app/app.component.html
+src/app/app.component.spec.ts
+src/app/app.component.ts
+src/app/app.config.ts
+src/app/app.routes.ts
+src/app/components/home/home.component.css
+src/app/components/home/home.component.html
+src/app/components/home/home.component.spec.ts
+src/app/components/home/home.component.ts
+src/app/components/login/login.component.css
+src/app/components/login/login.component.html
+src/app/components/login/login.component.spec.ts
+src/app/components/login/login.component.ts
+src/app/components/navbar/navbar.component.css
+src/app/components/navbar/navbar.component.html
+src/app/components/navbar/navbar.component.spec.ts
+src/app/components/navbar/navbar.component.ts
+src/app/components/post-details/post-details.component.css
+src/app/components/post-details/post-details.component.html
+src/app/components/post-details/post-details.component.spec.ts
+src/app/components/post-details/post-details.component.ts
+src/app/components/posts/posts.component.css
+src/app/components/posts/posts.component.html
+src/app/components/posts/posts.component.spec.ts
+src/app/components/posts/posts.component.ts
+src/app/components/register/register.component.html
+src/app/components/register/register.component.spec.ts
+src/app/components/register/register.component.ts
+src/app/services/post.service.spec.ts
+src/app/services/post.service.ts
+src/app/services/user.service.spec.ts
+src/app/services/user.service.ts
+src/app/time-ago.pipe.spec.ts
+src/app/time-ago.pipe.ts
+src/app/utils/editor-config.ts
+src/index.html
+src/main.ts
+src/styles.css
+tailwind.config.js
+tsconfig.app.json
+tsconfig.json
+tsconfig.spec.json
+
+================================================================
+Files
+================================================================
+
+================
+File: .editorconfig
+================
+# Editor configuration, see https://editorconfig.org
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.ts]
+quote_type = single
+ij_typescript_use_double_quotes = false
+
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false
+
+================
+File: .gitignore
+================
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
+.DS_Store
+Thumbs.db
+
+================
+File: angular.json
+================
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "blog-frontend": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/blog-frontend",
+            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              "src/tinymce",
+              {
+                "glob": "**/*",
+                "input": "node_modules/tinymce/",
+                "output": "/tinymce/"
+              }
+            ],
+            "styles": [
+              "src/styles.css"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules"]
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "blog-frontend:build:production"
+            },
+            "development": {
+              "buildTarget": "blog-frontend:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "tsconfig.spec.json",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              "src/tinymce",
+              {
+                "glob": "**/*",
+                "input": "node_modules/tinymce",
+                "output": "/tinymce/"
+              }
+            ],
+            "styles": [
+              "@angular/material/prebuilt-themes/azure-blue.css",
+              "src/styles.css"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    }
+  }
+}
+
+================
+File: blog_data.sql
+================
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Mar 03, 2025 at 09:46 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `blog_data`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comments`
+--
+
+CREATE TABLE `comments` (
+  `id` int(11) NOT NULL,
+  `postId` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `commentaire` text NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`id`, `postId`, `userId`, `commentaire`, `createdAt`) VALUES
+(1, 1, 1, 'This is a test comment', '2025-02-26 17:54:47'),
+(2, 12, 2, 'hello', '2025-02-26 17:58:05'),
+(3, 12, 2, 'hello', '2025-02-26 21:06:58'),
+(4, 10, 2, 'nice one buddy', '2025-02-26 21:07:57');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `favourites`
+--
+
+CREATE TABLE `favourites` (
+  `id` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `postId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `likes`
+--
+
+CREATE TABLE `likes` (
+  `id` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `postId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `likes`
+--
+
+INSERT INTO `likes` (`id`, `userId`, `postId`) VALUES
+(18, 2, 11),
+(20, 2, 12);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `posts`
+--
+
+CREATE TABLE `posts` (
+  `id` int(11) NOT NULL,
+  `titre` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `userId` int(11) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `link` varchar(255) DEFAULT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `isLiked` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `posts`
+--
+
+INSERT INTO `posts` (`id`, `titre`, `description`, `userId`, `image`, `link`, `createdAt`, `isLiked`) VALUES
+(1, 'mon premier post reussi', 'ce poste ne contient pas d\'image ni de lien', 1, NULL, NULL, '2025-02-26 15:45:04', 0),
+(2, 'mon deuxieme post reussi', 'ce poste contient un lien mais pas d\'image', 1, NULL, 'https://blogger.fr.softonic.com/applications-web', '2025-02-26 15:45:04', 0),
+(3, 'mon post d\'essais changé', 'ce post ne contient pas d\'image ne de lien car il a été modifier', 1, 'uploads/1740480055732-DSC_9695.jpg', NULL, '2025-02-26 15:45:04', 0),
+(4, 'mon post d\'essais reussi', 'ce poste contient un lien et une image', 1, NULL, NULL, '2025-02-26 15:45:04', 0),
+(5, 'mon post', 'ce poste est un essais', 1, NULL, NULL, '2025-02-26 15:45:04', 0),
+(7, 'titre changé', '', 1, NULL, NULL, '2025-02-26 15:45:04', 0),
+(8, 'mon post 8', 'ce poste est un essais', 1, NULL, NULL, '2025-02-26 15:45:04', 0),
+(9, 'mon post d\'essais changé', 'ce post ne contient pas d\'image ne de lien car il a été modifier', 1, NULL, NULL, '2025-02-26 15:45:04', 0),
+(10, 'marko post modified', 'my description post', 2, NULL, NULL, '2025-02-26 20:10:20', 0),
+(11, 'new time', 'timestamp', 2, NULL, NULL, '2025-02-26 15:46:51', 0),
+(12, 'time to', 'hello world', 2, NULL, NULL, '2025-02-26 15:47:27', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `post_images`
+--
+
+CREATE TABLE `post_images` (
+  `id` int(11) NOT NULL,
+  `postId` int(11) NOT NULL,
+  `imageUrl` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `nom` varchar(100) NOT NULL,
+  `prenom` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `nom`, `prenom`, `email`, `password`) VALUES
+(1, 'tester', 'test', 'tester@test.com', '$2a$05$3oSrJcH492MYT6.0qrNwFeFMyuQNtu/K8e0uSxYhYAyeAj6hesGUe'),
+(2, 'marko', 'dram', 'marko@test.com', '$2a$05$7XTy4kCZxDTap5YBWkdzb.FGR.cdndtY5yNyHNiT4Z.tUcgQ..b1W'),
+(3, 'testy', 'testyer', 'testy@test.com', '$2a$05$WJ0MPIZOnNvGWHmdey0xS.oJXtoeRwZR9WHm9aWx63INna1CXtWhW');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `postId` (`postId`),
+  ADD KEY `userId` (`userId`);
+
+--
+-- Indexes for table `favourites`
+--
+ALTER TABLE `favourites`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `userId` (`userId`,`postId`),
+  ADD KEY `postId` (`postId`);
+
+--
+-- Indexes for table `likes`
+--
+ALTER TABLE `likes`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `userId` (`userId`,`postId`),
+  ADD KEY `postId` (`postId`);
+
+--
+-- Indexes for table `posts`
+--
+ALTER TABLE `posts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `userId` (`userId`);
+
+--
+-- Indexes for table `post_images`
+--
+ALTER TABLE `post_images`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `postId` (`postId`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `favourites`
+--
+ALTER TABLE `favourites`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `likes`
+--
+ALTER TABLE `likes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT for table `posts`
+--
+ALTER TABLE `posts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `post_images`
+--
+ALTER TABLE `post_images`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`postId`) REFERENCES `posts` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `favourites`
+--
+ALTER TABLE `favourites`
+  ADD CONSTRAINT `favourites_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `favourites_ibfk_2` FOREIGN KEY (`postId`) REFERENCES `posts` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `likes`
+--
+ALTER TABLE `likes`
+  ADD CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `likes_ibfk_2` FOREIGN KEY (`postId`) REFERENCES `posts` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `posts`
+--
+ALTER TABLE `posts`
+  ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `post_images`
+--
+ALTER TABLE `post_images`
+  ADD CONSTRAINT `post_images_ibfk_1` FOREIGN KEY (`postId`) REFERENCES `posts` (`id`) ON DELETE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+================
+File: package.json
+================
+{
+  "name": "blog-frontend",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^19.1.0",
+    "@angular/cdk": "^19.1.5",
+    "@angular/common": "^19.1.0",
+    "@angular/compiler": "^19.1.0",
+    "@angular/core": "^19.1.0",
+    "@angular/forms": "^19.1.0",
+    "@angular/material": "^19.1.5",
+    "@angular/platform-browser": "^19.1.0",
+    "@angular/platform-browser-dynamic": "^19.1.0",
+    "@angular/router": "^19.1.0",
+    "@tinymce/tinymce-angular": "^8.0.1",
+    "bcryptjs": "^3.0.2",
+    "date-fns": "^4.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "rxjs": "~7.8.0",
+    "tinymce": "^7.7.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.15.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^19.1.8",
+    "@angular/cli": "^19.1.8",
+    "@angular/compiler-cli": "^19.1.0",
+    "@types/jasmine": "~5.1.0",
+    "autoprefixer": "^10.4.20",
+    "jasmine-core": "~5.5.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "~5.7.2"
+  }
+}
+
+================
+File: README.md
+================
+# BlogFrontend
+
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.8.
+
+## Development server
+
+To start a local development server, run:
+
+```bash
+ng serve
+```
+
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+
+## Code scaffolding
+
+Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+
+```bash
+ng generate component component-name
+```
+
+For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+
+```bash
+ng generate --help
+```
+
+## Building
+
+To build the project run:
+
+```bash
+ng build
+```
+
+This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+
+## Running unit tests
+
+To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+
+```bash
+ng test
+```
+
+## Running end-to-end tests
+
+For end-to-end (e2e) testing, run:
+
+```bash
+ng e2e
+```
+
+Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Additional Resources
+
+For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+================
+File: src/app/app.component.html
+================
+<app-navbar></app-navbar>
+<router-outlet></router-outlet>
+
+================
+File: src/app/app.component.spec.ts
+================
+import { TestBed } from '@angular/core/testing';
+import { AppComponent } from './app.component';
+
+describe('AppComponent', () => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [AppComponent],
+    }).compileComponents();
+  });
+
+  it('should create the app', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app).toBeTruthy();
+  });
+
+  it(`should have the 'blog-frontend' title`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app.title).toEqual('blog-frontend');
+  });
+
+  it('should render title', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, blog-frontend');
+  });
+});
+
+================
+File: src/app/app.component.ts
+================
+import { Component } from '@angular/core';
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './components/navbar/navbar.component';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, NavbarComponent, RouterModule],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+})
+export class AppComponent {
+  title = 'blog-frontend';
+}
+
+================
+File: src/app/app.config.ts
+================
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http'; // Add HttpClient
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideHttpClient(), // Ensure HttpClient is available
+    provideAnimationsAsync()
+  ]
+};
+
+================
+File: src/app/app.routes.ts
+================
+import { inject } from '@angular/core';
+import { Routes } from '@angular/router';
+import { UserService } from './services/user.service';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { PostsComponent } from './components/posts/posts.component';
+import { HomeComponent } from './components/home/home.component';
+import { PostDetailsComponent } from './components/post-details/post-details.component'; // Import PostDetailsComponent
+
+export const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'posts', component: PostsComponent, canActivate: [() => inject(UserService).isAuthenticated()] },
+  { path: 'post/:id', component: PostDetailsComponent } // Add route for PostDetailsComponent
+];
+
+================
+File: src/app/components/home/home.component.css
+================
+.titre {
+    font-size: 40px;
+    line-height: 40px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+================
+File: src/app/components/home/home.component.html
+================
+<div class="max-w-4xl mx-auto px-6 py-12">
+  <!-- Blog Header -->
+  <h2 class="text-5xl font-bold text-center text-gray-900 mb-16 font-serif gradient-text">📝 Latest Blog Posts</h2>
+
+  <div class="space-y-16">
+    <div *ngFor="let post of posts"
+    (click)="navigateToPost(post.id)"
+      class="bg-white shadow-xl rounded-2xl overflow-hidden hover:shadow-2xl transition-shadow duration-500 transform hover:-translate-y-2">
+
+      <!-- Blog Post Image -->
+      <img *ngIf="post.imageUrl" [src]="post.imageUrl" alt="Post Image"
+        class="w-full h-80 object-cover rounded-t-2xl">
+
+      <div class="px-8 pt-8">
+        <!-- Blog Title -->
+        <p class="titre">
+          {{ post.titre }}
+        </p>
+
+        <a *ngIf="post.link" [href]="post.link" target="_blank"
+          class="inline-block text-blue-600 font-medium hover:underline hover:text-blue-800 transition-colors duration-300 mb-4">
+          {{post.link}}
+        </a>
+
+        <!-- Blog Description -->
+        <p class="text-gray-700 leading-relaxed">
+
+            {{ post.nom }} {{ post.prenom }} • {{ post.formattedDate }}
+        </p>
+        
+      </div>
+
+      <div class="flex justify-start items-center mx-6">
+        <!-- Heart icon and like count -->
+        <div class="flex items-center">
+          <span class="text-2xl font-semibold transition duration-300"
+                [ngClass]="(post.likeCount || 0) > 0 ? 'text-red-500' : 'text-gray-600'">
+            {{ (post.likeCount || 0) > 0 ? '❤️' : '🤍' }}
+          </span>
+          <span class="ml-2 text-sm text-gray-600">
+            {{ post.likeCount || 0 }} {{ (post.likeCount || 0) === 1 ? 'like' : 'likes' }}
+          </span>
+        </div>
+      
+        <!-- Like/Unlike button only for authenticated users -->
+        <button *ngIf="userService.isAuthenticated()"
+                (click)="toggleLike(post)"
+                class="ml-2 text-sm text-gray-600 hover:text-red-500">
+          {{ post.isLikedByUser ? 'Unlike' : 'Like' }}
+        </button>
+      </div>
+
+
+
+      <!-- Toggle Comments Button -->
+      <div class="mx-6 mt-4">
+        <button (click)="toggleComments(post.id)"
+                class="text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors duration-300">
+          {{ showComments[post.id] ? 'Hide Comments' : 'Show Comments' }}
+          <span *ngIf="comments[post.id] && comments[post.id].length" class="ml-1">({{ comments[post.id].length }})</span>
+        </button>
+      </div>
+
+      <!-- Comment Section -->
+      <div *ngIf="showComments[post.id] && comments[post.id] && comments[post.id].length > 0" class="mt-6 space-y-4 mx-6">
+        <div *ngFor="let comment of comments[post.id]" class="bg-gray-50 p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+          <div class="flex justify-between items-center mb-2">
+            <strong class="text-gray-900 font-semibold text-sm">{{ comment.nom }} {{ comment.prenom }}</strong>
+            <span class="text-gray-500 text-xs">{{ comment.createdAt | timeAgo }}</span>
+          </div>
+          <div class="text-gray-700 text-sm leading-relaxed">
+            {{ comment.commentaire }}
+          </div>
+        </div>
+      </div>
+      
+      <div class="p-6">
+        <input [(ngModel)]="newComments[post.id]"
+               placeholder="Add a comment"
+               class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4 shadow-sm"
+               *ngIf="userService.isAuthenticated()">
+      
+        <button (click)="addComment(post.id)"
+                class="bg-blue-500 text-white py-3 px-6 rounded-xl hover:bg-blue-600 transition-all duration-300 shadow-md"
+                *ngIf="userService.isAuthenticated()">
+          Comment
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .gradient-text {
+    background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .titre {
+    /* font-size: 1.5rem; */
+    font-weight: bold;
+    color: #1f2937; /* gray-800 */
+    margin-bottom: 0.5rem;
+  }
+</style>
+
+================
+File: src/app/components/home/home.component.spec.ts
+================
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { HomeComponent } from './home.component';
+
+describe('HomeComponent', () => {
+  let component: HomeComponent;
+  let fixture: ComponentFixture<HomeComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [HomeComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(HomeComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+================
+File: src/app/components/home/home.component.ts
+================
+import { Component } from '@angular/core';
+import { HttpClient} from '@angular/common/http';
+import { NgFor, NgIf, NgClass } from '@angular/common';
+import { Router} from '@angular/router';
+import { UserService } from '../../services/user.service';
+import { FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { PostService } from '../../services/post.service';
+import { TimeAgoPipe } from '../../time-ago.pipe';
+import { Observable, of } from 'rxjs';
+import { postLiked } from '../../services/post.service';
+
+// Add this interface at the top of the file
+interface Post {
+  id: number;
+  titre: string;
+  description: string;
+  image?: string;
+  imageUrl?: string;
+  link?: string;
+  createdAt?: string;
+  nom?: string;
+  prenom?: string;
+  formattedDate?: string;
+  isLikedByUser?: number;  // 0 or 1
+  likeCount?: number;
+}
+
+interface Comment {
+  id: number;
+  nom: string;
+  prenom: string;
+  commentaire: string;
+  createdAt: string;
+}
+
+@Component({
+  selector: 'app-home',
+  standalone: true,
+  imports: [
+    NgFor,
+    NgIf,
+    NgClass,
+    FormsModule,
+    MatCardModule,
+    MatButtonModule,
+    TimeAgoPipe
+  ],
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
+})
+export class HomeComponent {
+  posts: Post[] = [];
+  comments: { [key: number]: Comment[] } = {};
+  showComments: { [key: number]: boolean } = {};
+  token: string | null = '';
+  newComment: string = '';
+  postliked: postLiked[] | null = null;
+
+
+  toggleLike(post: Post) {
+    if (!this.token) {
+      alert('Please log in to like a post');
+      return;
+    }
+    
+    if (post.isLikedByUser) {
+      this.unlikePost(post); // Pass the post object instead of just the ID
+    } else {
+      this.likePost(post); // Pass the post object instead of just the ID
+    }
+  }
+
+  likePost(post: Post) {
+    if (!this.token) {
+      alert('Please log in to like a post');
+      return;
+    }
+  
+    this.postService.likePost(post.id, this.token).subscribe({
+      next: (response) => {
+        post.isLikedByUser = 1;
+        post.likeCount = (post.likeCount || 0) + 1; // Increment likeCount
+        console.log(response.message);
+      },
+      error: (error) => {
+        console.error('Error liking post:', error);
+        if (error.status === 409) { // Conflict (already liked)
+          console.log('Post already liked by this user');
+        }
+      }
+    });
+  }
+  
+  unlikePost(post: Post) {
+    if (!this.token) {
+      alert('Please log in to unlike a post');
+      return;
+    }
+  
+    this.postService.unlikePost(post.id, this.token).subscribe({
+      next: (response) => {
+        post.isLikedByUser = 0;
+        post.likeCount = Math.max((post.likeCount || 0) - 1, 0); // Decrement likeCount, min 0
+        console.log(response.message);
+      },
+      error: (error) => console.error('Error unliking post:', error),
+    });
+  }
+
+  constructor(
+    private http: HttpClient, 
+    public userService: UserService, 
+    public postService: PostService,
+    private router: Router
+  ) {
+    this.fetchAllPosts();
+  }
+
+  navigateToPost(postId: number) {
+    console.log('Navigating to post:', postId); // Debug log
+    this.router.navigate(['/post', postId]);
+  }
+
+  getLikes(): Observable<postLiked[] | null> {
+    this.token = this.userService.getToken();
+    if (this.token && this.token !== '' ){
+      return this.postService.postLiked(this.token);
+    }
+    else {
+      return of(null);
+    }
+  }
+
+  fetchAllPosts() {
+    this.token = this.userService.getToken();
+  
+    this.postService.getPosts().subscribe({
+      next: (response) => {
+        this.posts = response.list.map((post: Post) => {
+          if (post.image) {
+            post.imageUrl = `http://localhost:3000/${post.image}`;
+          }
+          post.formattedDate = this.formatDate(post.createdAt);
+          // Set isLikedByUser based on the numeric value from API
+          post.isLikedByUser = post.isLikedByUser || 0;  // Default to 0
+  
+          this.loadComments(post.id);
+          this.showComments[post.id] = false; // Hide comments by default
+          return post;
+        });
+  
+        // If user is logged in, override isLiked with their specific like status
+        if (this.token && this.token !== '') {
+          this.getLikes().subscribe({
+            next: (likedPosts) => {
+              this.postliked = likedPosts || [];
+              this.posts.forEach((post) => {
+                // Check if the current user liked the post
+                const userLiked = this.postliked!.some((likedPost) => likedPost.postId === post.id);
+                // Set isLikedByUser to 1 if user liked it or if it has likes
+                post.isLikedByUser = userLiked || (post.likeCount && post.likeCount > 0) ? 1 : 0;
+              });
+            },
+            error: (error) => {
+              console.error('Error fetching liked posts:', error);
+            }
+          });
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching posts:', error);
+      }
+    });
+  }
+  
+  // Function to format the date in French
+  formatDate(dateString: string | undefined): string {
+    if (!dateString) return '';
+    
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
+  }
+
+  loadComments(postId: number) {
+    this.postService.getPostComments(postId).subscribe({
+      next: (comments: Comment[]) => {
+        this.comments[postId] = comments;
+      },
+      error: (error) => {
+        console.error('Error loading comments:', error);
+      }
+    });
+  }
+
+  toggleComments(postId: number) {
+    this.showComments[postId] = !this.showComments[postId]; // Toggle visibility
+  }
+
+  newComments: { [key: number]: string } = {}; // Object to store comments per post
+
+  addComment(postId: number) {
+    if (!this.token || !this.newComments[postId]) {
+      alert('Please log in and enter a comment');
+      return;
+    }
+
+    const user = this.userService.getUser();
+    if (!user) {
+      alert('Please log in to comment');
+      return;
+    }
+
+    const tempComment: Comment = {
+      id: Date.now(),
+      nom: user.nom,
+      prenom: user.prenom,
+      commentaire: this.newComments[postId],
+      createdAt: new Date().toISOString()
+    };
+
+    // Optimistically add the comment to the UI
+    if (!this.comments[postId]) {
+      this.comments[postId] = [];
+    }
+    this.comments[postId].unshift(tempComment); // Add to the top of the list
+    const commentText = this.newComments[postId];
+    this.newComments[postId] = ''; // Clear the input immediately
+
+    // Send the comment to the server
+    this.postService.addComment(postId, commentText, this.token).subscribe({
+      next: (response) => {
+        // Keep the optimistically added comment since server only returns success message
+        alert('Comment added successfully');
+      },
+      error: (error) => {
+        console.error('Error adding comment:', error);
+        // Rollback on error
+        const tempIndex = this.comments[postId].findIndex(c => c.id === tempComment.id);
+        if (tempIndex !== -1) {
+          this.comments[postId].splice(tempIndex, 1);
+        }
+        this.newComments[postId] = commentText;
+        alert('Failed to add comment. Please try again.');
+      }
+    });
+  }
+
+}
+
+================
+File: src/app/components/login/login.component.css
+================
+.auth-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+  }
+  mat-card {
+    width: 300px;
+  }
+
+================
+File: src/app/components/login/login.component.html
+================
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        placeholder="Email"
+        class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [(ngModel)]="user.email"
+      />
+    </div>
+    <div class="mb-6">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        placeholder="Password"
+        class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [(ngModel)]="user.password"
+      />
+    </div>
+    <button
+      class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      (click)="login()"
+    >
+      Login
+    </button>
+  </div>
+</div>
+
+================
+File: src/app/components/login/login.component.spec.ts
+================
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { LoginComponent } from './login.component';
+
+describe('LoginComponent', () => {
+  let component: LoginComponent;
+  let fixture: ComponentFixture<LoginComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [LoginComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(LoginComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+================
+File: src/app/components/login/login.component.ts
+================
+import { Component } from '@angular/core';
+import { Router, RouterModule } from '@angular/router'; // Import Router
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { UserService } from '../../services/user.service';
+
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+RouterModule
+  ],
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent {
+  user = { email: '', password: '' };
+
+  constructor(private userService: UserService, private router: Router) {} // Inject Router
+
+  login() {
+    this.userService.login(this.user).subscribe({
+      next: (response) => {
+        this.userService.saveToken(response.data);
+        this.router.navigate(['/posts']);
+      },
+      error: () => {
+        alert('Login failed');
+      }
+    });
+  }
+}
+
+================
+File: src/app/components/navbar/navbar.component.css
+================
+nav {
+    padding: 10px;
+    display: flex;
+    text-align: center;
+  }
+  
+  nav a {
+    color: rgb(59, 57, 57);
+    text-decoration: none;
+    margin-right: 15px;
+  }
+  
+  .spacer {
+    flex: 1;
+  }
+
+================
+File: src/app/components/navbar/navbar.component.html
+================
+<!-- Navbar -->
+<nav class=" top-0 left-0 w-full">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    
+
+    <!-- Desktop Navigation -->
+    <div class="hidden md:flex items-center space-x-8">
+      <a routerLink="/" class="nav-link">Home</a>
+
+      <a routerLink="/" class="nav-link">About</a>
+      <!-- Logo -->
+    <a href="/" class="text-5xl font-bold  dark:text-white hover:text-blue-600 transition-all">
+      DBlog
+    </a>
+
+      <ng-container *ngIf="userService.isAuthenticated(); else loggedOut">
+        <a routerLink="/posts" class="nav-link">Posts</a>
+        <a routerLink="/profile" class="nav-link">Profile</a>
+        <button (click)="logout()" class="text-red-500 hover:text-red-600 font-medium transition">Logout</button>
+      </ng-container>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button (click)="toggleMenu()" class="md:hidden text-gray-800 dark:text-white hover:text-blue-500 transition">
+      ☰
+    </button>
+  </div>
+</nav>
+
+<!-- Fullscreen Sliding Menu (Mobile) -->
+<div [class.hidden]="!isMenuOpen" class="fixed inset-0 bg-black/70 backdrop-blur-lg z-50 flex justify-end">
+  <div class="w-80 bg-white dark:bg-gray-900 shadow-lg h-full p-6 transform transition-all duration-500 ease-in-out"
+       [class.translate-x-full]="!isMenuOpen">
+    
+    <!-- Close Button -->
+    <button (click)="toggleMenu()" class="absolute top-6 right-6 text-gray-700 dark:text-white text-3xl">
+      ✖
+    </button>
+
+    <!-- Menu Links -->
+    <div class="mt-16 space-y-8">
+      <a routerLink="/" class="mobile-nav-link"> Home</a>
+      <a routerLink="/posts" class="mobile-nav-link"> Posts</a>
+
+      <ng-container *ngIf="userService.isAuthenticated(); else loggedOutMobile">
+        <a routerLink="/profile" class="mobile-nav-link"> Profile</a>
+        <button (click)="logout()" class="text-red-500 hover:text-red-600 font-medium transition">🚪 Logout</button>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<!-- Logged Out Template -->
+<ng-template #loggedOut>
+  <a routerLink="/login" class="nav-link"> Login</a>
+  <a routerLink="/register" class="nav-link"> Register</a>
+</ng-template>
+
+<ng-template #loggedOutMobile>
+  <a routerLink="/login" class="mobile-nav-link"> Login</a>
+  <a routerLink="/register" class="mobile-nav-link"> Register</a>
+</ng-template>
+
+<!-- Tailwind Styles -->
+<style>
+  .nav-link {
+    @apply text-gray-800 dark:text-white font-medium hover:text-blue-500 transition;
+  }
+
+  .mobile-nav-link {
+    @apply block text-2xl font-semibold text-gray-900 dark:text-white hover:text-blue-500 transition;
+  }
+</style>
+
+================
+File: src/app/components/navbar/navbar.component.spec.ts
+================
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { NavbarComponent } from './navbar.component';
+
+describe('NavbarComponent', () => {
+  let component: NavbarComponent;
+  let fixture: ComponentFixture<NavbarComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [NavbarComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(NavbarComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+================
+File: src/app/components/navbar/navbar.component.ts
+================
+import { Component } from '@angular/core';
+import { UserService } from '../../services/user.service';
+import { Router } from '@angular/router';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
+import { NgIf } from '@angular/common';
+
+@Component({
+  selector: 'app-navbar',
+  standalone: true,
+  imports: [
+    RouterLink,
+    NgIf,
+    MatToolbarModule,
+    MatButtonModule
+  ],
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css']
+})
+export class NavbarComponent {
+  isMenuOpen: boolean = false;
+
+  constructor(public userService: UserService, private router: Router) {}
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  logout() {
+    this.userService.logout();
+    this.router.navigate(['/login']);
+  }
+}
+
+================
+File: src/app/components/post-details/post-details.component.css
+================
+.titre {
+  font-size: 40px;
+  line-height: 40px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+================
+File: src/app/components/post-details/post-details.component.html
+================
+<div class="max-w-4xl mx-auto px-6 py-12">
+  <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
+    <img *ngIf="post.imageUrl" [src]="post.imageUrl" alt="Post Image"
+         class="w-full h-80 object-cover rounded-t-2xl">
+    <div class="px-8 pt-8">
+      <h1 class="titre text-3xl">{{ post.titre }}</h1>
+      <a *ngIf="post.link" [href]="post.link" target="_blank"
+         class="inline-block text-blue-600 font-medium hover:underline hover:text-blue-800 transition-colors duration-300 mb-4">
+        {{ post.link }}
+      </a>
+      <p class="text-gray-700 leading-relaxed mb-4">
+        {{ post.nom }} {{ post.prenom }} • {{ post.formattedDate }}
+      </p>
+      <p class="text-gray-700 leading-relaxed mb-6" [innerHTML]="post.description">{{ post.description }}</p>
+    </div>
+    <div class="flex justify-start items-center mx-6 mb-6">
+      <div class="flex items-center">
+        <span class="text-2xl font-semibold transition duration-300"
+              [ngClass]="(post.likeCount || 0) > 0 ? 'text-red-500' : 'text-gray-600'">
+          {{ (post.likeCount || 0) > 0 ? '❤️' : '🤍' }}
+        </span>
+        <span class="ml-2 text-sm text-gray-600">
+          {{ post.likeCount || 0 }} {{ (post.likeCount || 0) === 1 ? 'like' : 'likes' }}
+        </span>
+      </div>
+      <button *ngIf="userService.isAuthenticated()"
+              (click)="toggleLike()"
+              class="ml-2 text-sm text-gray-600 hover:text-red-500">
+        {{ post.isLikedByUser === 1 ? 'Unlike' : 'Like' }}
+      </button>
+    </div>
+    <div class="mx-6 mb-6" *ngIf="comments.length > 0">
+      <h3 class="text-xl font-semibold text-gray-900 mb-4">Comments</h3>
+      <div class="space-y-4">
+        <div *ngFor="let comment of comments" class="bg-gray-50 p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+          <div class="flex justify-between items-center mb-2">
+            <strong class="text-gray-900 font-semibold text-sm">{{ comment.nom }} {{ comment.prenom }}</strong>
+            <span class="text-gray-500 text-xs">{{ comment.createdAt | timeAgo }}</span>
+          </div>
+          <div class="text-gray-700 text-sm leading-relaxed">{{ comment.commentaire }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="p-6" *ngIf="userService.isAuthenticated()">
+      <input [(ngModel)]="newComment"
+             placeholder="Add a comment"
+             class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4 shadow-sm">
+      <button (click)="addComment()"
+              class="bg-blue-500 text-white py-3 px-6 rounded-xl hover:bg-blue-600 transition-all duration-300 shadow-md">
+        Comment
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .titre {
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+  }
+</style>
+
+================
+File: src/app/components/post-details/post-details.component.spec.ts
+================
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { PostDetailsComponent } from './post-details.component';
+
+describe('PostDetailsComponent', () => {
+  let component: PostDetailsComponent;
+  let fixture: ComponentFixture<PostDetailsComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [PostDetailsComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(PostDetailsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+================
+File: src/app/components/post-details/post-details.component.ts
+================
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { NgFor, NgIf, NgClass } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { UserService } from '../../services/user.service';
+import { PostService, Post as ServicePost } from '../../services/post.service';
+import { TimeAgoPipe } from '../../time-ago.pipe';
+
+interface Post extends ServicePost {
+  imageUrl?: string;
+  formattedDate?: string;
+  isLikedByUser?: number;  // Make optional since API might not include it
+  likeCount?: number;
+}
+
+interface Comment {
+  id: number;
+  nom: string;
+  prenom: string;
+  commentaire: string;
+  createdAt: string;
+}
+
+@Component({
+  selector: 'app-post-details',
+  standalone: true,
+  imports: [NgFor, NgIf, NgClass, FormsModule, TimeAgoPipe],
+  templateUrl: './post-details.component.html',
+  styleUrls: ['./post-details.component.css']
+})
+export class PostDetailsComponent {
+  post: Post = {
+    id: 0,
+    titre: '',
+    description: '',
+    isLikedByUser: 0 // Default initialization
+  } as Post;
+  comments: Comment[] = [];
+  newComment: string = '';
+  token: string | null = '';
+
+  constructor(
+    private route: ActivatedRoute,
+    public userService: UserService,
+    public postService: PostService
+  ) {
+    this.token = this.userService.getToken();
+    const postId = Number(this.route.snapshot.params['id']);
+    if (postId) {
+      this.fetchPost(postId);
+    }
+  }
+
+  fetchPost(id: number) {
+    this.postService.getPostById(id).subscribe({
+      next: (data: Post) => {
+        console.log('Fetched post:', data); // Debug log
+        this.post = {
+          ...data,
+          imageUrl: data.image ? `http://localhost:3000/${data.image}` : undefined,
+          formattedDate: this.formatDate(data.createdAt),
+          isLikedByUser: data.isLikedByUser || 0 // Ensure default
+        };
+        this.loadComments(id);
+      },
+      error: (error) => console.error('Error fetching post:', error)
+    });
+  }
+
+  formatDate(dateString: string | undefined): string {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
+  }
+
+  loadComments(postId: number) {
+    this.postService.getPostComments(postId).subscribe({
+      next: (comments: Comment[]) => {
+        this.comments = comments;
+      },
+      error: (error) => console.error('Error loading comments:', error)
+    });
+  }
+
+  toggleLike() {
+    if (!this.token) {
+      alert('Please log in to like a post');
+      return;
+    }
+    if (this.post.isLikedByUser === 1) {
+      this.unlikePost();
+    } else {
+      this.likePost();
+    }
+  }
+
+  likePost() {
+    if (!this.token) return;
+    this.postService.likePost(this.post.id, this.token).subscribe({
+      next: (response) => {
+        this.post.isLikedByUser = 1;
+        this.post.likeCount = (this.post.likeCount || 0) + 1;
+        console.log(response.message);
+      },
+      error: (error) => {
+        console.error('Error liking post:', error);
+        if (error.status === 409) console.log('Post already liked');
+      }
+    });
+  }
+
+  unlikePost() {
+    if (!this.token) return;
+    this.postService.unlikePost(this.post.id, this.token).subscribe({
+      next: (response) => {
+        this.post.isLikedByUser = 0;
+        this.post.likeCount = Math.max((this.post.likeCount || 0) - 1, 0);
+        console.log(response.message);
+      },
+      error: (error) => console.error('Error unliking post:', error)
+    });
+  }
+
+  addComment() {
+    if (!this.token || !this.newComment) {
+      alert('Please log in and enter a comment');
+      return;
+    }
+    const user = this.userService.getUser();
+    if (!user) {
+      alert('Please log in to comment');
+      return;
+    }
+
+    const tempComment: Comment = {
+      id: Date.now(),
+      nom: user.nom,
+      prenom: user.prenom,
+      commentaire: this.newComment,
+      createdAt: new Date().toISOString()
+    };
+    this.comments.unshift(tempComment);
+    const commentText = this.newComment;
+    this.newComment = '';
+
+    this.postService.addComment(this.post.id, commentText, this.token).subscribe({
+      next: (response) => {
+        console.log('Comment added:', response.message);
+      },
+      error: (error) => {
+        console.error('Error adding comment:', error);
+        const tempIndex = this.comments.findIndex(c => c.id === tempComment.id);
+        if (tempIndex !== -1) this.comments.splice(tempIndex, 1);
+        this.newComment = commentText;
+        alert('Failed to add comment');
+      }
+    });
+  }
+}
+
+================
+File: src/app/components/posts/posts.component.css
+================
+.comment-header {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.comment-time {
+  font-size: 12px;
+  color: #777;  /* Grey color for the time */
+  margin-left: 10px;
+}
+
+.comment-body {
+  font-size: 14px;
+  color: #444;
+  margin-top: 5px;
+}
+
+.comment {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.comment:last-child {
+  border-bottom: none;
+}
+
+================
+File: src/app/components/posts/posts.component.html
+================
+<div class="max-w-6xl mx-auto px-6 py-12">
+  <!-- Blog Header -->
+  <h2 class="text-5xl font-bold text-center text-gray-800 mb-12 font-serif gradient-text">
+    📢 All Posts
+  </h2>
+
+  <!-- Create a New Post Button -->
+  <div class="flex justify-center mb-8">
+    <button (click)="openModal()" 
+            class="bg-blue-500 text-white py-4 px-8 text-lg rounded-xl hover:bg-blue-600 transition-all duration-300 shadow-lg">
+      ➕ Create a New Post
+    </button>
+  </div>
+
+  
+
+
+ <!-- Add Post Form Modal (Now Always on Top) -->
+<div *ngIf="isPostModalOpen" 
+class="fixed inset-0 bg-gray-600 bg-opacity-60 z-50 flex items-center justify-center">
+<div class="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-2xl mx-auto transform transition-all duration-300">
+<h3 class="text-2xl font-semibold text-gray-700 mb-6">Create a New Post</h3>
+
+<div class="space-y-5">
+ <input [(ngModel)]="newPost.titre" placeholder="Title"
+        class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm" />
+
+<p class="text-gray-600">Description</p>
+
+<editor [(ngModel)]="newPost.description" [init]="tinymceInit"></editor>
+
+ <input [(ngModel)]="newPost.link" placeholder="Link (optional)"
+        class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm" />
+
+ <input type="file" (change)="onFileSelected($event)" accept="image/*"
+        class="w-full text-gray-600 file:mr-4 file:py-3 file:px-5 file:rounded-xl file:border-0 file:bg-blue-400 file:text-white hover:file:bg-blue-500 cursor-pointer shadow-sm" />
+
+ <div class="flex space-x-4">
+   <button (click)="addPost()"
+           class="flex-1 bg-blue-500 text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition-all duration-300 shadow-md">
+      Add Post
+   </button>
+   <button (click)="closeModal()"
+           class="flex-1 bg-gray-200 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-300 transition-all duration-300 shadow-md">
+      Cancel
+   </button>
+ </div>
+</div>
+</div>
+</div>
+
+
+  <!-- Responsive Post Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8">
+    <div *ngFor="let post of posts"
+         class="bg-white shadow-xl rounded-2xl overflow-hidden hover:shadow-2xl transition-shadow duration-500 transform hover:-translate-y-2 w-full max-w-2xl mx-auto">
+
+      <!-- Post Header -->
+      <div class="p-8 bg-blue-100 rounded-t-2xl">
+        <h3 class="text-3xl font-semibold text-gray-800 truncate">{{ post.titre }}</h3>
+      </div>
+
+      <!-- Post Content -->
+      <div class="p-8">
+        <p class="text-gray-700 text-lg mb-6" [innerHTML]="post.description">{{ post.description }}</p>
+
+        <img *ngIf="post.imageUrl" [src]="post.imageUrl" alt="Post Image"
+             class="w-full h-96 object-cover rounded-xl mb-6 shadow-md" />
+
+        <a *ngIf="post.link" [href]="post.link" target="_blank"
+           class="text-blue-500 hover:underline text-lg font-medium">
+          🔗 Read more
+        </a>
+
+        <p>{{post.createdAt | timeAgo}}</p>
+
+        <!-- Edit Form -->
+        <div *ngIf="editingPost?.id === post.id" class="mt-6 space-y-5">
+          <input [(ngModel)]="editingPost!.titre" placeholder="Title"
+                 class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm" />
+
+          <textarea [(ngModel)]="editingPost!.description" placeholder="Description"
+                    class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm"></textarea>
+
+          <input [(ngModel)]="editingPost!.link" placeholder="Link (optional)"
+                 class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm" />
+
+          <div class="flex space-x-4">
+            <button (click)="updatePost()"
+                    class="flex-1 bg-blue-500 text-white py-3 rounded-xl hover:bg-blue-600 transition-all duration-300 shadow-md">
+               Save
+            </button>
+            <button (click)="editingPost = null"
+                    class="flex-1 bg-gray-200 text-gray-700 py-3 rounded-xl hover:bg-gray-300 transition-all duration-300 shadow-md">
+               Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post Actions -->
+      <div *ngIf="userService.isAuthenticated()"
+           class="p-6 flex justify-between items-center border-t border-gray-200">
+        <button (click)="deletePost(post.id)" class="text-red-500 hover:text-red-600 font-medium"> Delete</button>
+        <button (click)="startEditing(post)" class="text-blue-500 hover:text-blue-600 font-medium"> Edit</button>
+        
+        <button (click)="toggleLike(post)"
+        class="text-lg font-semibold transition duration-300"
+                [ngClass]="post.isLiked ? 'text-red-500' : 'text-gray-600'">
+          {{ post.isLiked ? '❤️' : '🤍 ' }}
+        </button>
+        <!-- <button (click)="favouritePost(post.id)" class="text-yellow-500 hover:text-yellow-600"> Favourite</button>
+        <button (click)="unfavouritePost(post.id)" class="text-yellow-500 hover:text-yellow-600"> Unfavourite</button> -->
+      </div>
+
+      <div *ngIf="comments[post.id] && comments[post.id].length > 0">
+        <div *ngFor="let comment of comments[post.id]">
+          <div class="comment-header">
+            <strong>{{ comment.nom }} {{ comment.prenom }}</strong>
+            <!-- Display the time ago format -->
+            <span class="comment-time">{{ comment.createdAt | timeAgo }}</span>
+          </div>
+          <div class="comment-body">
+            {{ comment.commentaire }}
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Comment Section -->
+      <div class="p-6 border-t border-gray-200">
+        <input [(ngModel)]="newComments[post.id]"
+               placeholder="Add a comment"
+               class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4 shadow-sm"
+               *ngIf="userService.isAuthenticated()">
+
+        <button (click)="addComment(post.id)"
+                class="bg-blue-500 text-white py-3 px-6 rounded-xl hover:bg-blue-600 transition-all duration-300 shadow-md"
+                *ngIf="userService.isAuthenticated()">
+          Comment
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .gradient-text {
+    background: linear-gradient(90deg, #a8edea 0%, #fed6e3 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+</style>
+
+================
+File: src/app/components/posts/posts.component.spec.ts
+================
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { PostsComponent } from './posts.component';
+
+describe('PostsComponent', () => {
+  let component: PostsComponent;
+  let fixture: ComponentFixture<PostsComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [PostsComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(PostsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+================
+File: src/app/components/posts/posts.component.ts
+================
+import { Component } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { NgFor, NgIf, NgClass } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { UserService } from '../../services/user.service';
+import { FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { postLiked, PostService } from '../../services/post.service';
+import { TimeAgoPipe } from '../../time-ago.pipe';
+import { Observable, of } from 'rxjs';
+import { TINYMCE_SCRIPT_SRC, EditorComponent } from '@tinymce/tinymce-angular';
+import { TINYMCE_DEFAULT_CONFIG } from '../../utils/editor-config';
+import { Editor } from 'tinymce';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
+
+// Add this interface at the top of the file
+interface Post {
+  id: number;
+  titre: string;
+  description: string;
+  image?: string;
+  imageUrl?: string;
+  link?: string;
+  isLiked?: boolean;
+  formattedDate?: string;
+  createdAt?: string;
+}
+
+interface NewPost {
+  titre: string;
+  description: string;
+  link?: string;
+  image?: any;
+}
+
+
+interface Comment {
+  id: number;
+  nom: string;
+  prenom: string;
+  commentaire: string;
+  createdAt: string;
+}
+
+declare const tinymce: any;
+
+@Component({
+  selector: 'app-posts',
+  standalone: true,
+  imports: [
+    EditorComponent,
+    NgFor,
+    NgIf,
+    NgClass,
+    FormsModule,
+    MatCardModule,
+    MatButtonModule,
+    TimeAgoPipe
+],
+  providers: [
+    { provide: TINYMCE_SCRIPT_SRC, useValue: '/tinymce/tinymce.min.js' },
+  ],
+  templateUrl: './posts.component.html',
+  styleUrls: ['./posts.component.css']
+})
+export class PostsComponent {
+  private editorInstance: Editor | null = null;
+  posts: Post[] = [];
+  comments: { [key: number]: Comment[] } = {};
+  newPost: { titre: string; description: string; link?: string; image?: any } = { 
+    titre: '', 
+    description: '' 
+  };
+  safeDescription: SafeHtml = '';
+  token: string | null = '';
+  newComment: string = '';
+  editingPost: Post | null = null;
+  isPostModalOpen: boolean = false;
+  postliked: postLiked[] | null = null;
+  tinymceInit: EditorComponent['init'] = {
+    ...TINYMCE_DEFAULT_CONFIG,
+    height: 200,
+    setup: (editor: Editor) => {
+      this.editorInstance = editor;
+  
+      editor.on('input change', () => {
+        this.newPost.description = editor.getContent(); // Update the description
+      });
+    },
+  };
+  
+
+
+  openModal() {
+    this.isPostModalOpen = true;
+  }
+
+  closeModal() {
+    this.isPostModalOpen = false;
+  }
+
+// toggleLike(post: Post) {
+
+
+//   if (post.isLiked) {
+//     this.unlikePost(post.id);
+//       // Call API to like
+//   } else {
+//     this.likePost(post.id);// Call API to unlike
+//   }
+// }
+
+  toggleLike(post: Post) {
+    if (post.isLiked) {
+      this.unlikePost(post); // Pass the post object instead of just the ID
+    } else {
+      this.likePost(post); // Pass the post object instead of just the ID
+    }
+  }
+
+  likePost(post: Post) {
+    if (!this.token) {
+      alert('Please log in to like a post');
+      return;
+    }
+
+    this.postService.likePost(post.id, this.token).subscribe({
+      next: (response) => {
+        // Update UI immediately
+        post.isLiked = true;
+
+        // Optional: Show a non-modal notification instead of alert
+        // e.g., use a toast notification or just console.log
+        console.log(response.message);
+      },
+      error: (error) => console.error('Error liking post:', error),
+    });
+  }
+
+  unlikePost(post: Post) {
+    if (!this.token) {
+      alert('Please log in to unlike a post');
+      return;
+    }
+
+    this.postService.unlikePost(post.id, this.token).subscribe({
+      next: (response) => {
+        // Update UI immediately
+        post.isLiked = false;
+
+        // Optional: Show a non-modal notification instead of alert
+        console.log(response.message);
+      },
+      error: (error) => console.error('Error unliking post:', error),
+    });
+  }
+
+  constructor(private http: HttpClient, public userService: UserService, public postService: PostService, private sanitizer: DomSanitizer) {
+    this.fetchPosts();
+  }
+
+  getLikes(): Observable<postLiked[] | null> {
+    this.token = this.userService.getToken();
+    if (this.token && this.token !== '' ){
+      return this.postService.postLiked(this.token);
+    }
+    else {
+      return of(null);
+    }
+  }
+
+  fetchPosts() {
+    this.getLikes().subscribe({
+      next: (response) => {
+        this.postliked = response;
+      },
+      error: (error) => {
+        console.error("Error fetching posts:", error);
+      },
+    });
+
+    this.token = this.userService.getToken();
+
+    if (this.token && this.token !== "") {
+      this.postService.getPostsByUserId(this.token).subscribe({
+        next: (response) => {
+          this.posts = response.map((post: Post) => {
+            if (post.image) {
+              post.imageUrl = `http://localhost:3000/${post.image}`;
+            }
+
+            // Set isLiked based on whether this post's id is in postliked
+            post.isLiked = this.postliked?.some((likedPost) => likedPost.postId === post.id) || false;
+
+            this.loadComments(post.id); // Load comments for each post
+            return post;
+          });
+        },
+        error: (error) => {
+          console.error("Error fetching posts:", error);
+        },
+      });
+    } else {
+      console.log("User not logged in!");
+    }
+  }
+
+  addPost() {
+    this.token = this.userService.getToken();
+  
+    if (this.token && this.token !== '') {
+      console.log('Post being sent:', this.newPost); // Debugging line
+  
+      this.postService.createPost(this.newPost, this.token).subscribe({
+        next: (response) => {
+          alert(response.message); // Show success message
+          this.newPost = { titre: '', description: '', link: '', image: undefined }; // Reset form
+          this.editorInstance?.setContent(''); // Clear TinyMCE editor
+          this.fetchPosts(); // Refresh posts list
+        },
+        error: (error) => {
+          console.error('Error creating post:', error);
+          alert('Failed to add post');
+        },
+      });
+    } else {
+      console.log('User not logged in');
+      alert('Please log in to add a post');
+    }
+  }
+  
+
+  deletePost(id: number) {
+    this.token = this.userService.getToken();
+
+    if (this.token && this.token !== '') {
+      this.postService.deletePost(id, this.token).subscribe({
+        next: (response) => {
+          alert(response.message); // "Post supprimé"
+          this.fetchPosts();
+        },
+        error: (error) => {
+          console.error('Error deleting post:', error);
+          alert('Failed to delete post');
+        },
+      });
+    } else {
+      console.log('User not logged in');
+      alert('Please log in to delete a post');
+    }
+  }
+
+  startEditing(post: Post) {
+    this.editingPost = { ...post };
+  }
+
+  updatePost() {
+    if (!this.editingPost || !this.token) {
+      alert('No post selected or not logged in');
+      return;
+    }
+
+    const updatedPost: NewPost = {
+      titre: this.editingPost.titre,
+      description: this.editingPost.description,
+      link: this.editingPost.link,
+    };
+
+    this.postService.updatePost(this.editingPost.id, updatedPost, this.token).subscribe({
+      next: (response) => {
+        alert(response.message); // "Post mis à jour avec succès"
+        this.editingPost = null;
+        this.fetchPosts();
+      },
+      error: (error) => {
+        console.error('Error updating post:', error);
+        alert('Failed to update post');
+      },
+    });
+  }
+
+  // likePost(postId: number) {
+  //   if (!this.token) {
+  //     alert('Please log in to like a post');
+  //     return;
+  //   }
+  //   this.postService.likePost(postId, this.token).subscribe({
+  //     next: (response) => {
+  //       alert(response.message)
+  //     window.location.reload();
+  //     },
+  //     error: (error) => console.error('Error liking post:', error),
+  //   });
+  // }
+
+  // unlikePost(postId: number) {
+  //   if (!this.token) {
+  //     alert('Please log in to unlike a post');
+  //     return;
+  //   }
+  //   this.postService.unlikePost(postId, this.token).subscribe({
+  //     next: (response) => alert(response.message),
+  //     error: (error) => console.error('Error unliking post:', error),
+  //   });
+  // }
+
+  // favouritePost(postId: number) {
+  //   if (!this.token) {
+  //     alert('Please log in to favorite a post');
+  //     return;
+  //   }
+  //   this.postService.favouritePost(postId, this.token).subscribe({
+  //     next: (response) => alert(response.message),
+  //     error: (error) => console.error('Error favoriting post:', error),
+  //   });
+  // }
+
+  // unfavouritePost(postId: number) {
+  //   if (!this.token) {
+  //     alert('Please log in to unfavorite a post');
+  //     return;
+  //   }
+  //   this.postService.unfavouritePost(postId, this.token).subscribe({
+  //     next: (response) => alert(response.message),
+  //     error: (error) => console.error('Error unfavoriting post:', error),
+  //   });
+  // }
+
+  // Fetch comments for a specific post
+  loadComments(postId: number) {
+    this.postService.getPostComments(postId).subscribe({
+      next: (comments: Comment[]) => {
+        this.comments[postId] = comments;
+      },
+      error: (error) => {
+        console.error('Error loading comments:', error);
+      }
+    });
+  }
+
+  newComments: { [key: number]: string } = {}; // Object to store comments per post
+
+addComment(postId: number) {
+  if (!this.token || !this.newComments[postId]) {
+    alert('Please log in and enter a comment');
+    return;
+  }
+
+  this.postService.addComment(postId, this.newComments[postId], this.token).subscribe({
+    next: (response) => {
+      alert(response.message);
+      this.newComments[postId] = ''; // Clear comment only for that specific post
+    },
+    error: (error) => console.error('Error adding comment:', error),
+  });
+}
+
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.newPost.image = file;
+    }
+  }
+
+  cancelPost() {
+    this.newPost = { 
+      titre: '', 
+      description: '', 
+      link: undefined, 
+      image: undefined 
+    };
+  }
+}
+
+================
+File: src/app/components/register/register.component.html
+================
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+      <h2 class="text-2xl font-bold mb-6 text-center">Register</h2>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="nom">Nom</label>
+        <input
+          id="nom"
+          type="text"
+          placeholder="Nom"
+          class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [(ngModel)]="user.nom"
+          required
+        />
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="prenom">Prénom</label>
+        <input
+          id="prenom"
+          type="text"
+          placeholder="Prénom"
+          class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [(ngModel)]="user.prenom"
+          required
+        />
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="Email"
+          class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [(ngModel)]="user.email"
+          required
+        />
+      </div>
+      <div class="mb-6">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Password"
+          class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [(ngModel)]="user.password"
+          required
+        />
+      </div>
+      <button
+        class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        (click)="register()"
+      >
+        Register
+      </button>
+    </div>
+  </div>
+
+================
+File: src/app/components/register/register.component.spec.ts
+================
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { RegisterComponent } from './register.component';
+
+describe('RegisterComponent', () => {
+  let component: RegisterComponent;
+  let fixture: ComponentFixture<RegisterComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [RegisterComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(RegisterComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+================
+File: src/app/components/register/register.component.ts
+================
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { UserService } from '../../services/user.service';
+
+@Component({
+  selector: 'app-register',
+  standalone: true,
+  imports: [FormsModule],
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
+})
+export class RegisterComponent {
+  user = { nom: '', prenom: '', email: '', password: '' };
+
+  constructor(private userService: UserService) {}
+
+  // register() {
+  //   this.userService.register(this.user).subscribe(response => {
+  //     alert('User registered successfully');
+  //   }, error => {
+  //     alert('Registration failed');
+  //   });
+  // }
+  register() {
+    console.log(this.user);
+    this.userService.register(this.user).subscribe({
+      next: (response) => {
+        console.log('Registration successful:', response);
+        alert('User registered successfully');
+      },
+      error: (error) => {
+        console.error('Registration failed:', error);
+        alert(error.error?.message || 'Registration failed');
+      }
+    });
+  }
+
+}
+
+================
+File: src/app/services/post.service.spec.ts
+================
+import { TestBed } from '@angular/core/testing';
+
+import { PostService } from './post.service';
+
+describe('PostService', () => {
+  let service: PostService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(PostService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});
+
+================
+File: src/app/services/post.service.ts
+================
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { UserService } from './user.service';
+
+// Define the Post interface to match your backend model
+export interface Post {
+  id: number;
+  titre: string;
+  description: string;
+  userId: number;
+  image?: string; // Optional, as it can be null
+  link?: string;  // Optional, as it can be null
+  nom?: string;   // From JOIN with users table in getPostById
+  prenom?: string;
+  createdAt?: string; // From JOIN with users table in getPostById
+}
+
+// Interface for creating/updating posts without ID and userId (handled by backend)
+export interface NewPost {
+  titre: string;
+  description: string;
+  link?: string;
+  image?: File; // File object for image uploads
+}
+
+export interface postLiked {
+  postId: number;
+}
+
+export interface Comment {
+  id: number;
+  commentaire: string;
+  nom: string;
+  prenom: string;
+  createdAt: string;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class PostService {
+  private apiUrl = 'http://localhost:3000/post'; // Matches your backend route prefix
+
+  constructor(private http: HttpClient, private userService: UserService) {}
+
+  // Helper to create headers with token
+  private getAuthHeaders(token: string): HttpHeaders {
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+  }
+
+  // Fetch all posts
+  getPosts(): Observable<{ message: string; list: Post[] }> {
+    return this.http.get<{ message: string; list: Post[] }>(`${this.apiUrl}/getAll`);
+  }
+
+  // Fetch a single post by ID
+  getPostById(id: number): Observable<Post> {
+    const token = this.userService.getToken();
+    const headers = token ? new HttpHeaders().set('Authorization', `Bearer ${token}`) : undefined;
+    return this.http.get<Post>(`${this.apiUrl}/getpost/${id}`, { headers });
+  }
+
+  // Fetch posts by authenticated user
+  getPostsByUserId(token: string): Observable<Post[]> {
+    const headers = this.getAuthHeaders(token);
+    return this.http.get<Post[]>(`${this.apiUrl}/postUser`, { headers });
+  }
+
+  // Create a new post (with optional image)
+  createPost(post: NewPost, token: string): Observable<{ message: string }> {
+    const headers = this.getAuthHeaders(token);
+    const formData = new FormData();
+    formData.append('titre', post.titre);
+    formData.append('description', post.description);
+    if (post.link) formData.append('link', post.link);
+    if (post.image) formData.append('image', post.image);
+
+    return this.http.post<{ message: string }>(`${this.apiUrl}/add`, formData, { headers });
+  }
+
+  // Update an existing post (with optional image)
+  updatePost(id: number, post: NewPost, token: string): Observable<{ message: string }> {
+    const headers = this.getAuthHeaders(token);
+    const formData = new FormData();
+    formData.append('id', id.toString());
+    formData.append('titre', post.titre);
+    formData.append('description', post.description);
+    if (post.link) formData.append('link', post.link);
+    if (post.image) formData.append('image', post.image);
+
+    return this.http.put<{ message: string }>(`${this.apiUrl}/update`, formData, { headers });
+  }
+
+  // Delete a post
+  deletePost(id: number, token: string): Observable<{ message: string }> {
+    const headers = this.getAuthHeaders(token);
+    return this.http.get<{ message: string }>(`${this.apiUrl}/delete/${id}`, { headers });
+  }
+
+  //get post liked
+  postLiked(token: string): Observable<postLiked[] | null> {
+    const headers = this.getAuthHeaders(token);
+    return this.http.get<postLiked[] | null>(`${this.apiUrl}/getlike`, { headers });
+  }
+
+  // Like a post
+  likePost(postId: number, token: string): Observable<{ message: string }> {
+    const headers = this.getAuthHeaders(token);
+    return this.http.post<{ message: string }>(`${this.apiUrl}/like`, { postId }, { headers });
+  }
+
+  // Unlike a post
+  unlikePost(postId: number, token: string): Observable<{ message: string }> {
+    const headers = this.getAuthHeaders(token);
+    return this.http.post<{ message: string }>(`${this.apiUrl}/unlike`, { postId }, { headers });
+  }
+
+  // Add to favorites
+  favouritePost(postId: number, token: string): Observable<{ message: string }> {
+    const headers = this.getAuthHeaders(token);
+    return this.http.post<{ message: string }>(`${this.apiUrl}/favourite`, { postId }, { headers });
+  }
+
+  // Remove from favorites
+  unfavouritePost(postId: number, token: string): Observable<{ message: string }> {
+    const headers = this.getAuthHeaders(token);
+    return this.http.post<{ message: string }>(`${this.apiUrl}/unfavourite`, { postId }, { headers });
+  }
+
+  // Add a comment
+  addComment(postId: number, commentaire: string, token: string): Observable<{ message: string }> {
+    const headers = this.getAuthHeaders(token);
+    return this.http.post<{ message: string }>(`${this.apiUrl}/comment`, { postId, commentaire }, { headers });
+  }
+
+  // Update a comment
+  updateComment(commentId: number, commentaire: string, token: string): Observable<{ message: string; commentaire: Comment }> {
+    const headers = this.getAuthHeaders(token);
+    return this.http.put<{ message: string; commentaire: Comment }>(`${this.apiUrl}/comment`, { commentId, commentaire }, { headers });
+  }
+
+  // Delete a comment
+  deleteComment(commentId: number, token: string): Observable<{ message: string }> {
+    const headers = this.getAuthHeaders(token);
+    return this.http.delete<{ message: string }>(`${this.apiUrl}/comment`, { headers, params: { commentId: commentId.toString() } });
+  }
+
+  // Get comments for a post
+  getPostComments(postId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/comments/${postId}`);
+  }
+}
+
+================
+File: src/app/services/user.service.spec.ts
+================
+import { TestBed } from '@angular/core/testing';
+
+import { UserService } from './user.service';
+
+describe('UserService', () => {
+  let service: UserService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(UserService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});
+
+================
+File: src/app/services/user.service.ts
+================
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export interface User {
+  nom: string;
+  prenom: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserService {
+  private apiUrl = 'http://localhost:3000/user';
+
+  constructor(private http: HttpClient) {}
+
+  register(user: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, user);
+  }
+
+  login(user: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, user);
+  }
+
+  saveToken(token: string) {
+    localStorage.setItem('jwt', token);
+  }
+
+  getToken() {
+    return localStorage.getItem('jwt');
+  }
+
+  logout() {
+    localStorage.removeItem('jwt');
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.getToken();
+  }
+
+  getUser(): { nom: string; prenom: string } | null {
+    const token = this.getToken();
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1])); // Decode JWT payload
+        return { nom: payload.nom, prenom: payload.prenom }; // Adjust based on your token structure
+      } catch (e) {
+        console.error('Error decoding token:', e);
+        return null;
+      }
+    }
+    return null;
+  }
+}
+
+================
+File: src/app/time-ago.pipe.spec.ts
+================
+import { TimeAgoPipe } from './time-ago.pipe';
+
+describe('TimeAgoPipe', () => {
+  it('create an instance', () => {
+    const pipe = new TimeAgoPipe();
+    expect(pipe).toBeTruthy();
+  });
+});
+
+================
+File: src/app/time-ago.pipe.ts
+================
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'timeAgo',
+  pure: false, // Ensures updates dynamically
+})
+export class TimeAgoPipe implements PipeTransform {
+  transform(value: any): string {
+    if (!value) return '';
+
+    const now = new Date();
+    const timeDiff = now.getTime() - new Date(value).getTime();
+
+    const seconds = Math.floor(timeDiff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const weeks = Math.floor(days / 7);
+    const months = Math.floor(days / 30);
+    const years = Math.floor(days / 365);
+
+    if (seconds < 60) return 'Just now';
+    if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    if (days < 7) return `${days} day${days > 1 ? 's' : ''} ago`;
+    if (weeks < 4) return `${weeks} week${weeks > 1 ? 's' : ''} ago`;
+    if (months < 12) return `${months} month${months > 1 ? 's' : ''} ago`;
+    
+    return `${years} year${years > 1 ? 's' : ''} ago`;
+  }
+}
+
+================
+File: src/app/utils/editor-config.ts
+================
+import { EditorComponent } from '@tinymce/tinymce-angular';
+import { Editor } from 'tinymce';
+
+export const TINYMCE_DEFAULT_CONFIG: EditorComponent['init'] = {
+  base_url: '/tinymce',
+  suffix: '.min',
+  plugins: [
+    'advlist',
+    'autolink',
+    'lists',
+    'link',
+    'image',
+    'charmap',
+    'preview',
+    'anchor',
+    'searchreplace',
+    'visualblocks',
+    'code',
+    'fullscreen',
+    'insertdatetime',
+    'media',
+    'table',
+    'code',
+    'help',
+    'wordcount',
+  ],
+  toolbar:
+    'undo redo | blocks | bold italic forecolor | alignleft aligncenter ' +
+    'alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+  height: 400,
+  menubar: false,
+  promotion: false,
+  statusbar: false,
+  browser_spellcheck: true,
+  contextmenu: false,
+  paste_data_images: true,
+  entity_encoding: 'raw',
+  verify_html: false,
+  forced_root_block: 'p',
+  skin: 'oxide',
+  content_css: 'default',
+  content_style:
+    'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; }',
+  setup: (editor: Editor) => {
+    editor.on('init', () => {
+      const container = editor.getContainer();
+      if (container) {
+        container.style.transition = 'border-color 0.15s ease-in-out';
+      }
+    });
+  },
+};
+
+================
+File: src/index.html
+================
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>BlogFrontend</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="mat-typography">
+  <app-root></app-root>
+</body>
+</html>
+
+================
+File: src/main.ts
+================
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { AppComponent } from './app/app.component';
+import { routes } from './app/app.routes';
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(),
+    provideAnimations()
+  ]
+});
+
+================
+File: src/styles.css
+================
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+================
+File: tailwind.config.js
+================
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./src/**/*.{html,ts}"
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
+
+================
+File: tsconfig.app.json
+================
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": []
+  },
+  "files": [
+    "src/main.ts"
+  ],
+  "include": [
+    "src/**/*.d.ts"
+  ]
+}
+
+================
+File: tsconfig.json
+================
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "bundler",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022"
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}
+
+================
+File: tsconfig.spec.json
+================
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/spec",
+    "types": [
+      "jasmine"
+    ]
+  },
+  "include": [
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
+  ]
+}
+
+
+
+================================================================
+End of Codebase
+================================================================

@@ -1,0 +1,154 @@
+<div class="max-w-6xl mx-auto px-6 py-12">
+  <!-- Blog Header -->
+  <h2 class="text-5xl font-bold text-center text-gray-800 mb-12 font-serif gradient-text">
+    📢 All Posts
+  </h2>
+
+  <!-- Create a New Post Button -->
+  <div class="flex justify-center mb-8">
+    <button (click)="openModal()" 
+            class="bg-blue-500 text-white py-4 px-8 text-lg rounded-xl hover:bg-blue-600 transition-all duration-300 shadow-lg">
+      ➕ Create a New Post
+    </button>
+  </div>
+
+  
+
+
+ <!-- Add Post Form Modal (Now Always on Top) -->
+<div *ngIf="isPostModalOpen" 
+class="fixed inset-0 bg-gray-600 bg-opacity-60 z-50 flex items-center justify-center">
+<div class="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-2xl mx-auto transform transition-all duration-300">
+<h3 class="text-2xl font-semibold text-gray-700 mb-6">Create a New Post</h3>
+
+<div class="space-y-5">
+ <input [(ngModel)]="newPost.titre" placeholder="Title"
+        class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm" />
+
+<p class="text-gray-600">Description</p>
+
+<editor [(ngModel)]="newPost.description" [init]="tinymceInit"></editor>
+
+ <input [(ngModel)]="newPost.link" placeholder="Link (optional)"
+        class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm" />
+
+ <input type="file" (change)="onFileSelected($event)" accept="image/*"
+        class="w-full text-gray-600 file:mr-4 file:py-3 file:px-5 file:rounded-xl file:border-0 file:bg-blue-400 file:text-white hover:file:bg-blue-500 cursor-pointer shadow-sm" />
+
+ <div class="flex space-x-4">
+   <button (click)="addPost()"
+           class="flex-1 bg-blue-500 text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition-all duration-300 shadow-md">
+      Add Post
+   </button>
+   <button (click)="closeModal()"
+           class="flex-1 bg-gray-200 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-300 transition-all duration-300 shadow-md">
+      Cancel
+   </button>
+ </div>
+</div>
+</div>
+</div>
+
+
+  <!-- Responsive Post Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8">
+    <div *ngFor="let post of posts"
+         class="bg-white shadow-xl rounded-2xl overflow-hidden hover:shadow-2xl transition-shadow duration-500 transform hover:-translate-y-2 w-full max-w-2xl mx-auto">
+
+      <!-- Post Header -->
+      <div class="p-8 bg-blue-100 rounded-t-2xl">
+        <h3 class="text-3xl font-semibold text-gray-800 truncate">{{ post.titre }}</h3>
+      </div>
+
+      <!-- Post Content -->
+      <div class="p-8">
+        <p class="text-gray-700 text-lg mb-6" [innerHTML]="post.description">{{ post.description }}</p>
+
+        <img *ngIf="post.imageUrl" [src]="post.imageUrl" alt="Post Image"
+             class="w-full h-96 object-cover rounded-xl mb-6 shadow-md" />
+
+        <a *ngIf="post.link" [href]="post.link" target="_blank"
+           class="text-blue-500 hover:underline text-lg font-medium">
+          🔗 Read more
+        </a>
+
+        <p>{{post.createdAt | timeAgo}}</p>
+
+        <!-- Edit Form -->
+        <div *ngIf="editingPost?.id === post.id" class="mt-6 space-y-5">
+          <input [(ngModel)]="editingPost!.titre" placeholder="Title"
+                 class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm" />
+
+          <textarea [(ngModel)]="editingPost!.description" placeholder="Description"
+                    class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm"></textarea>
+
+          <input [(ngModel)]="editingPost!.link" placeholder="Link (optional)"
+                 class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm" />
+
+          <div class="flex space-x-4">
+            <button (click)="updatePost()"
+                    class="flex-1 bg-blue-500 text-white py-3 rounded-xl hover:bg-blue-600 transition-all duration-300 shadow-md">
+               Save
+            </button>
+            <button (click)="editingPost = null"
+                    class="flex-1 bg-gray-200 text-gray-700 py-3 rounded-xl hover:bg-gray-300 transition-all duration-300 shadow-md">
+               Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post Actions -->
+      <div *ngIf="userService.isAuthenticated()"
+           class="p-6 flex justify-between items-center border-t border-gray-200">
+        <button (click)="deletePost(post.id)" class="text-red-500 hover:text-red-600 font-medium"> Delete</button>
+        <button (click)="startEditing(post)" class="text-blue-500 hover:text-blue-600 font-medium"> Edit</button>
+        
+        <button (click)="toggleLike(post)"
+        class="text-lg font-semibold transition duration-300"
+                [ngClass]="post.isLiked ? 'text-red-500' : 'text-gray-600'">
+          {{ post.isLiked ? '❤️' : '🤍 ' }}
+        </button>
+        <!-- <button (click)="favouritePost(post.id)" class="text-yellow-500 hover:text-yellow-600"> Favourite</button>
+        <button (click)="unfavouritePost(post.id)" class="text-yellow-500 hover:text-yellow-600"> Unfavourite</button> -->
+      </div>
+
+      <div *ngIf="comments[post.id] && comments[post.id].length > 0">
+        <div *ngFor="let comment of comments[post.id]">
+          <div class="comment-header">
+            <strong>{{ comment.nom }} {{ comment.prenom }}</strong>
+            <!-- Display the time ago format -->
+            <span class="comment-time">{{ comment.createdAt | timeAgo }}</span>
+          </div>
+          <div class="comment-body">
+            {{ comment.commentaire }}
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Comment Section -->
+      <div class="p-6 border-t border-gray-200">
+        <input [(ngModel)]="newComments[post.id]"
+               placeholder="Add a comment"
+               class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4 shadow-sm"
+               *ngIf="userService.isAuthenticated()">
+
+        <button (click)="addComment(post.id)"
+                class="bg-blue-500 text-white py-3 px-6 rounded-xl hover:bg-blue-600 transition-all duration-300 shadow-md"
+                *ngIf="userService.isAuthenticated()">
+          Comment
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .gradient-text {
+    background: linear-gradient(90deg, #a8edea 0%, #fed6e3 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+</style>

@@ -1,0 +1,73 @@
+<!-- Navbar -->
+<nav class=" top-0 left-0 w-full">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    
+
+    <!-- Desktop Navigation -->
+    <div class="hidden md:flex items-center space-x-8">
+      <a routerLink="/" class="nav-link">Home</a>
+
+      <a routerLink="/" class="nav-link">About</a>
+      <!-- Logo -->
+    <a href="/" class="text-5xl font-bold  dark:text-white hover:text-blue-600 transition-all">
+      DBlog
+    </a>
+
+      <ng-container *ngIf="userService.isAuthenticated(); else loggedOut">
+        <a routerLink="/posts" class="nav-link">Posts</a>
+        <a routerLink="/profile" class="nav-link">Profile</a>
+        <button (click)="logout()" class="text-red-500 hover:text-red-600 font-medium transition">Logout</button>
+      </ng-container>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button (click)="toggleMenu()" class="md:hidden text-gray-800 dark:text-white hover:text-blue-500 transition">
+      ☰
+    </button>
+  </div>
+</nav>
+
+<!-- Fullscreen Sliding Menu (Mobile) -->
+<div [class.hidden]="!isMenuOpen" class="fixed inset-0 bg-black/70 backdrop-blur-lg z-50 flex justify-end">
+  <div class="w-80 bg-white dark:bg-gray-900 shadow-lg h-full p-6 transform transition-all duration-500 ease-in-out"
+       [class.translate-x-full]="!isMenuOpen">
+    
+    <!-- Close Button -->
+    <button (click)="toggleMenu()" class="absolute top-6 right-6 text-gray-700 dark:text-white text-3xl">
+      ✖
+    </button>
+
+    <!-- Menu Links -->
+    <div class="mt-16 space-y-8">
+      <a routerLink="/" class="mobile-nav-link"> Home</a>
+      <a routerLink="/posts" class="mobile-nav-link"> Posts</a>
+
+      <ng-container *ngIf="userService.isAuthenticated(); else loggedOutMobile">
+        <a routerLink="/profile" class="mobile-nav-link"> Profile</a>
+        <button (click)="logout()" class="text-red-500 hover:text-red-600 font-medium transition">🚪 Logout</button>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<!-- Logged Out Template -->
+<ng-template #loggedOut>
+  <a routerLink="/login" class="nav-link"> Login</a>
+  <a routerLink="/register" class="nav-link"> Register</a>
+</ng-template>
+
+<ng-template #loggedOutMobile>
+  <a routerLink="/login" class="mobile-nav-link"> Login</a>
+  <a routerLink="/register" class="mobile-nav-link"> Register</a>
+</ng-template>
+
+<!-- Tailwind Styles -->
+<style>
+  .nav-link {
+    @apply text-gray-800 dark:text-white font-medium hover:text-blue-500 transition;
+  }
+
+  .mobile-nav-link {
+    @apply block text-2xl font-semibold text-gray-900 dark:text-white hover:text-blue-500 transition;
+  }
+</style>

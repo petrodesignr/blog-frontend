@@ -1,0 +1,32 @@
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        placeholder="Email"
+        class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [(ngModel)]="user.email"
+      />
+    </div>
+    <div class="mb-6">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        placeholder="Password"
+        class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [(ngModel)]="user.password"
+      />
+    </div>
+    <button
+      class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      (click)="login()"
+    >
+      Login
+    </button>
+  </div>
+</div>
+

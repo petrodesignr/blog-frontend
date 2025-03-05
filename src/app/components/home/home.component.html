@@ -1,0 +1,107 @@
+<div class="max-w-4xl mx-auto px-6 py-12">
+  <!-- Blog Header -->
+  <h2 class="text-5xl font-bold text-center text-gray-900 mb-16 font-serif gradient-text">📝 Latest Blog Posts</h2>
+
+  <div class="space-y-16">
+    <div *ngFor="let post of posts"
+    (click)="navigateToPost(post.id)"
+      class="bg-white shadow-xl rounded-2xl overflow-hidden hover:shadow-2xl transition-shadow duration-500 transform hover:-translate-y-2">
+
+      <!-- Blog Post Image -->
+      <img *ngIf="post.imageUrl" [src]="post.imageUrl" alt="Post Image"
+        class="w-full h-80 object-cover rounded-t-2xl">
+
+      <div class="px-8 pt-8">
+        <!-- Blog Title -->
+        <p class="titre">
+          {{ post.titre }}
+        </p>
+
+        <a *ngIf="post.link" [href]="post.link" target="_blank"
+          class="inline-block text-blue-600 font-medium hover:underline hover:text-blue-800 transition-colors duration-300 mb-4">
+          {{post.link}}
+        </a>
+
+        <!-- Blog Description -->
+        <p class="text-gray-700 leading-relaxed">
+
+            {{ post.nom }} {{ post.prenom }} • {{ post.formattedDate }}
+        </p>
+        
+      </div>
+
+      <div class="flex justify-start items-center mx-6">
+        <!-- Heart icon and like count -->
+        <div class="flex items-center">
+          <span class="text-2xl font-semibold transition duration-300"
+                [ngClass]="(post.likeCount || 0) > 0 ? 'text-red-500' : 'text-gray-600'">
+            {{ (post.likeCount || 0) > 0 ? '❤️' : '🤍' }}
+          </span>
+          <span class="ml-2 text-sm text-gray-600">
+            {{ post.likeCount || 0 }} {{ (post.likeCount || 0) === 1 ? 'like' : 'likes' }}
+          </span>
+        </div>
+      
+        <!-- Like/Unlike button only for authenticated users -->
+        <button *ngIf="userService.isAuthenticated()"
+                (click)="toggleLike(post)"
+                class="ml-2 text-sm text-gray-600 hover:text-red-500">
+          {{ post.isLikedByUser ? 'Unlike' : 'Like' }}
+        </button>
+      </div>
+
+
+
+      <!-- Toggle Comments Button -->
+      <div class="mx-6 mt-4">
+        <button (click)="toggleComments(post.id)"
+                class="text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors duration-300">
+          {{ showComments[post.id] ? 'Hide Comments' : 'Show Comments' }}
+          <span *ngIf="comments[post.id] && comments[post.id].length" class="ml-1">({{ comments[post.id].length }})</span>
+        </button>
+      </div>
+
+      <!-- Comment Section -->
+      <div *ngIf="showComments[post.id] && comments[post.id] && comments[post.id].length > 0" class="mt-6 space-y-4 mx-6">
+        <div *ngFor="let comment of comments[post.id]" class="bg-gray-50 p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+          <div class="flex justify-between items-center mb-2">
+            <strong class="text-gray-900 font-semibold text-sm">{{ comment.nom }} {{ comment.prenom }}</strong>
+            <span class="text-gray-500 text-xs">{{ comment.createdAt | timeAgo }}</span>
+          </div>
+          <div class="text-gray-700 text-sm leading-relaxed">
+            {{ comment.commentaire }}
+          </div>
+        </div>
+      </div>
+      
+      <div class="p-6">
+        <input [(ngModel)]="newComments[post.id]"
+               placeholder="Add a comment"
+               class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4 shadow-sm"
+               *ngIf="userService.isAuthenticated()">
+      
+        <button (click)="addComment(post.id)"
+                class="bg-blue-500 text-white py-3 px-6 rounded-xl hover:bg-blue-600 transition-all duration-300 shadow-md"
+                *ngIf="userService.isAuthenticated()">
+          Comment
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .gradient-text {
+    background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .titre {
+    /* font-size: 1.5rem; */
+    font-weight: bold;
+    color: #1f2937; /* gray-800 */
+    margin-bottom: 0.5rem;
+  }
+</style>

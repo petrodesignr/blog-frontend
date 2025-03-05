@@ -1,0 +1,62 @@
+<div class="max-w-4xl mx-auto px-6 py-12">
+  <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
+    <img *ngIf="post.imageUrl" [src]="post.imageUrl" alt="Post Image"
+         class="w-full h-80 object-cover rounded-t-2xl">
+    <div class="px-8 pt-8">
+      <h1 class="titre text-3xl">{{ post.titre }}</h1>
+      <a *ngIf="post.link" [href]="post.link" target="_blank"
+         class="inline-block text-blue-600 font-medium hover:underline hover:text-blue-800 transition-colors duration-300 mb-4">
+        {{ post.link }}
+      </a>
+      <p class="text-gray-700 leading-relaxed mb-4">
+        {{ post.nom }} {{ post.prenom }} • {{ post.formattedDate }}
+      </p>
+      <p class="text-gray-700 leading-relaxed mb-6" [innerHTML]="post.description">{{ post.description }}</p>
+    </div>
+    <div class="flex justify-start items-center mx-6 mb-6">
+      <div class="flex items-center">
+        <span class="text-2xl font-semibold transition duration-300"
+              [ngClass]="(post.likeCount || 0) > 0 ? 'text-red-500' : 'text-gray-600'">
+          {{ (post.likeCount || 0) > 0 ? '❤️' : '🤍' }}
+        </span>
+        <span class="ml-2 text-sm text-gray-600">
+          {{ post.likeCount || 0 }} {{ (post.likeCount || 0) === 1 ? 'like' : 'likes' }}
+        </span>
+      </div>
+      <button *ngIf="userService.isAuthenticated()"
+              (click)="toggleLike()"
+              class="ml-2 text-sm text-gray-600 hover:text-red-500">
+        {{ post.isLikedByUser === 1 ? 'Unlike' : 'Like' }}
+      </button>
+    </div>
+    <div class="mx-6 mb-6" *ngIf="comments.length > 0">
+      <h3 class="text-xl font-semibold text-gray-900 mb-4">Comments</h3>
+      <div class="space-y-4">
+        <div *ngFor="let comment of comments" class="bg-gray-50 p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+          <div class="flex justify-between items-center mb-2">
+            <strong class="text-gray-900 font-semibold text-sm">{{ comment.nom }} {{ comment.prenom }}</strong>
+            <span class="text-gray-500 text-xs">{{ comment.createdAt | timeAgo }}</span>
+          </div>
+          <div class="text-gray-700 text-sm leading-relaxed">{{ comment.commentaire }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="p-6" *ngIf="userService.isAuthenticated()">
+      <input [(ngModel)]="newComment"
+             placeholder="Add a comment"
+             class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4 shadow-sm">
+      <button (click)="addComment()"
+              class="bg-blue-500 text-white py-3 px-6 rounded-xl hover:bg-blue-600 transition-all duration-300 shadow-md">
+        Comment
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .titre {
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+  }
+</style>
