@@ -1,73 +1,129 @@
 <!-- Navbar -->
-<nav class=" top-0 left-0 w-full">
-  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+<nav class="bg-white shadow-md sticky top-0 left-0 w-full z-40">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center w-full">
+    <!-- Logo (Left) -->
+    <div class="shrink">
+      <a href="/" class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold hover:text-gray-700 transition-all text-gray-600">
+        DBlog
+      </a>
+    </div>
     
 
-    <!-- Desktop Navigation -->
-    <div class="hidden md:flex items-center space-x-8">
-      <a routerLink="/" class="nav-link">Home</a>
+    <!-- Navigation Links (Center) -->
+    <div class="hidden md:flex items-center justify-center flex-1 space-x-8 text-xl ml-[5%]">
+      <a routerLink="/" class="nav-link relative group">
+        Home
+        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+      </a>
+      <a href="" class="nav-link relative group">
+        Contact
+        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+      </a>
+      <a routerLink="/posts" class="nav-link relative group" *ngIf="userService.isAuthenticated()">
+        Posts
+        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+      </a>
+      <a routerLink="/" class="nav-link relative group">
+        About
+        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+      </a>
+      <ng-container *ngIf="userService.isAuthorised()">
+        <a routerLink="/admin" class="nav-link relative group">
+          Dashboard
+          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+        </a>
+      </ng-container>
+    </div>
 
-      <a routerLink="/" class="nav-link">About</a>
-      <!-- Logo -->
-    <a href="/" class="text-5xl font-bold  dark:text-white hover:text-blue-600 transition-all">
-      DBlog
-    </a>
+    <!-- Auth Controls (Right) -->
+    <div class="hidden md:block flex-none">
+      <!-- Logged Out Template -->
+      <ng-template #loggedOut>
+        <div class="flex items-center space-x-3 text-xl">
+          <a routerLink="/login" class="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-all">
+            Login
+          </a>
+          <a routerLink="/register" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-all">
+            Register
+          </a>
+        </div>
+      </ng-template>
 
       <ng-container *ngIf="userService.isAuthenticated(); else loggedOut">
-        <a routerLink="/posts" class="nav-link">Posts</a>
-        <a routerLink="/profile" class="nav-link">Profile</a>
-        <button (click)="logout()" class="text-red-500 hover:text-red-600 font-medium transition">Logout</button>
+        <div class="flex items-center space-x-3 text-xl">
+          <a routerLink="/profile" class="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-all">
+            <span>Profile</span>
+          </a>
+          <button (click)="logout()" class="px-4 py-2 text-gray-700 text-red-500 font-medium transition-all">
+            <span>Logout</span>
+          </button>
+        </div>
       </ng-container>
     </div>
 
     <!-- Mobile Menu Button -->
-    <button (click)="toggleMenu()" class="md:hidden text-gray-800 dark:text-white hover:text-blue-500 transition">
-      ☰
-    </button>
+    <div class="md:hidden ml-auto">
+      <button (click)="toggleMenu()" class="text-gray-700 hover:text-blue-600 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
   </div>
 </nav>
 
-<!-- Fullscreen Sliding Menu (Mobile) -->
-<div [class.hidden]="!isMenuOpen" class="fixed inset-0 bg-black/70 backdrop-blur-lg z-50 flex justify-end">
-  <div class="w-80 bg-white dark:bg-gray-900 shadow-lg h-full p-6 transform transition-all duration-500 ease-in-out"
-       [class.translate-x-full]="!isMenuOpen">
+<!-- Mobile Menu Overlay -->
+<div class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 md:hidden transition-opacity duration-300"
+     [class.opacity-0]="!isMenuOpen" 
+     [class.pointer-events-none]="!isMenuOpen"
+     [class.opacity-100]="isMenuOpen" 
+     (click)="toggleMenu()">
+  <!-- Sidebar Menu -->
+  <div class="w-full h-full bg-white shadow-xl transform transition-transform duration-300 ease-in-out"
+       [class.translate-x-0]="isMenuOpen" 
+       [class.translate-x-full]="!isMenuOpen"
+       (click)="$event.stopPropagation()">
     
-    <!-- Close Button -->
-    <button (click)="toggleMenu()" class="absolute top-6 right-6 text-gray-700 dark:text-white text-3xl">
-      ✖
-    </button>
-
-    <!-- Menu Links -->
-    <div class="mt-16 space-y-8">
-      <a routerLink="/" class="mobile-nav-link"> Home</a>
-      <a routerLink="/posts" class="mobile-nav-link"> Posts</a>
-
-      <ng-container *ngIf="userService.isAuthenticated(); else loggedOutMobile">
-        <a routerLink="/profile" class="mobile-nav-link"> Profile</a>
-        <button (click)="logout()" class="text-red-500 hover:text-red-600 font-medium transition">🚪 Logout</button>
-      </ng-container>
+    <!-- Mobile Menu Header -->
+    <div class="flex items-center justify-end p-6 border-b">
+      <button (click)="toggleMenu()" class="text-gray-500 hover:text-gray-700">
+        ✖ <!-- Close Icon -->
+      </button>
     </div>
+    
+    <!-- Mobile Menu Links -->
+    <nav class="px-6 pt-4 pb-8 space-y-4 flex flex-col items-center">
+      <a routerLink="/" class="mobile-nav-link" (click)="toggleMenu()">Home</a>
+      <a routerLink="/posts" class="mobile-nav-link" (click)="toggleMenu()">Posts</a>
+      <a routerLink="/about" class="mobile-nav-link" (click)="toggleMenu()">About</a>
+
+      <!-- User Authentication -->
+      <ng-container *ngIf="userService.isAuthenticated()">
+        <a routerLink="/profile" class="mobile-nav-link" (click)="toggleMenu()">Profile</a>
+        <ng-container *ngIf="userService.isAuthorised()">
+          <a routerLink="/admin" class="mobile-nav-link" (click)="toggleMenu()">Dashboard</a>
+        </ng-container>
+        <button (click)="logout(); toggleMenu()" class="mobile-nav-link text-red-500 hover:text-red-700">Logout</button>
+      </ng-container>
+
+      <!-- Login/Register -->
+      <ng-container *ngIf="!userService.isAuthenticated()">
+        <div class="pt-4 border-t border-gray-200 flex flex-col items-center">
+          <a routerLink="/login" class="mobile-nav-link" (click)="toggleMenu()">Login</a>
+          <a routerLink="/register" class="mobile-nav-link text-blue-600" (click)="toggleMenu()">Register</a>
+        </div>
+      </ng-container>
+    </nav>
   </div>
 </div>
-
-<!-- Logged Out Template -->
-<ng-template #loggedOut>
-  <a routerLink="/login" class="nav-link"> Login</a>
-  <a routerLink="/register" class="nav-link"> Register</a>
-</ng-template>
-
-<ng-template #loggedOutMobile>
-  <a routerLink="/login" class="mobile-nav-link"> Login</a>
-  <a routerLink="/register" class="mobile-nav-link"> Register</a>
-</ng-template>
 
 <!-- Tailwind Styles -->
 <style>
   .nav-link {
-    @apply text-gray-800 dark:text-white font-medium hover:text-blue-500 transition;
+    @apply text-gray-700 font-medium hover:text-blue-600 transition-all py-2;
   }
 
   .mobile-nav-link {
-    @apply block text-2xl font-semibold text-gray-900 dark:text-white hover:text-blue-500 transition;
+    @apply flex items-center text-lg font-medium text-gray-700 hover:text-blue-600 transition-all py-3;
   }
 </style>

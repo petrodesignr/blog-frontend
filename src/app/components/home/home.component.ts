@@ -59,6 +59,7 @@ export class HomeComponent {
   postliked: postLiked[] | null = null;
 
 
+
   toggleLike(post: Post) {
     if (!this.token) {
       alert('Please log in to like a post');
@@ -136,7 +137,7 @@ export class HomeComponent {
   fetchAllPosts() {
     this.token = this.userService.getToken();
   
-    this.postService.getPosts().subscribe({
+    this.postService.getActivePosts("accepted").subscribe({
       next: (response) => {
         this.posts = response.list.map((post: Post) => {
           if (post.image) {

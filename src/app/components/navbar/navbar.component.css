@@ -1,13 +1,10 @@
 nav {
-    padding: 10px;
     display: flex;
     text-align: center;
   }
   
   nav a {
-    color: rgb(59, 57, 57);
     text-decoration: none;
-    margin-right: 15px;
   }
   
   .spacer {

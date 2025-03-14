@@ -26,6 +26,9 @@ interface Post {
   isLiked?: boolean;
   formattedDate?: string;
   createdAt?: string;
+  isLikedByUser?: number;
+  likeCount?: number;
+  state?: string;
 }
 
 interface NewPost {
@@ -33,6 +36,7 @@ interface NewPost {
   description: string;
   link?: string;
   image?: any;
+  state?: string;
 }
 
 
@@ -67,11 +71,14 @@ declare const tinymce: any;
 })
 export class PostsComponent {
   private editorInstance: Editor | null = null;
+  isAuth: boolean = false;
   posts: Post[] = [];
+  awaitingPosts: Post[] = [];
   comments: { [key: number]: Comment[] } = {};
-  newPost: { titre: string; description: string; link?: string; image?: any } = { 
+  newPost: NewPost = { 
     titre: '', 
-    description: '' 
+    description: '',
+    state: 'awaiting'
   };
   safeDescription: SafeHtml = '';
   token: string | null = '';
@@ -90,9 +97,9 @@ export class PostsComponent {
       });
     },
   };
+
+  showComments: { [key: number]: boolean } = {};
   
-
-
   openModal() {
     this.isPostModalOpen = true;
   }
@@ -100,17 +107,6 @@ export class PostsComponent {
   closeModal() {
     this.isPostModalOpen = false;
   }
-
-// toggleLike(post: Post) {
-
-
-//   if (post.isLiked) {
-//     this.unlikePost(post.id);
-//       // Call API to like
-//   } else {
-//     this.likePost(post.id);// Call API to unlike
-//   }
-// }
 
   toggleLike(post: Post) {
     if (post.isLiked) {
@@ -159,6 +155,7 @@ export class PostsComponent {
 
   constructor(private http: HttpClient, public userService: UserService, public postService: PostService, private sanitizer: DomSanitizer) {
     this.fetchPosts();
+    this.isAuth = this.userService.isAuthorised()
   }
 
   getLikes(): Observable<postLiked[] | null> {
@@ -170,18 +167,36 @@ export class PostsComponent {
       return of(null);
     }
   }
+  
+
+  // Function to format the date in French
+  formatDate(dateString: string | undefined): string {
+    if (!dateString) return '';
+    
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
+  }
 
   fetchPosts() {
+    
     this.getLikes().subscribe({
-      next: (response) => {
-        this.postliked = response;
+      next: (likedPosts) => {
+        this.postliked = likedPosts || [];
+        this.posts.forEach((post) => {
+          
+          // Check if the current user liked the post
+          const userLiked = this.postliked?.some((likedPost) => likedPost.postId === post.id) || false;
+          // Set isLikedByUser to 1 if user liked it or if it has likes
+          post.isLikedByUser = userLiked || (post.likeCount && post.likeCount > 0) ? 1 : 0;
+        });
       },
       error: (error) => {
-        console.error("Error fetching posts:", error);
-      },
+        console.error('Error fetching liked posts:', error);
+      }
     });
 
     this.token = this.userService.getToken();
+    
 
     if (this.token && this.token !== "") {
       this.postService.getPostsByUserId(this.token).subscribe({
@@ -211,13 +226,26 @@ export class PostsComponent {
     this.token = this.userService.getToken();
   
     if (this.token && this.token !== '') {
-      console.log('Post being sent:', this.newPost); // Debugging line
+      // Check if the current user is an admin
+      if (this.userService.isAuthorised()) { // You may need to create this method if it doesn't exist
+        this.newPost.state = 'accepted';
+        
+      } else {
+        // For non-admin users, you might want to set it to "awaiting" by default
+        this.newPost.state = 'awaiting';
+      }
+
+
+      
+      
+  // The rest of your existing addPost() functionality
   
       this.postService.createPost(this.newPost, this.token).subscribe({
         next: (response) => {
           alert(response.message); // Show success message
-          this.newPost = { titre: '', description: '', link: '', image: undefined }; // Reset form
+          this.newPost = { titre: '', description: '', link: '', image: undefined, state: "awaiting" }; // Reset form
           this.editorInstance?.setContent(''); // Clear TinyMCE editor
+          this.closeModal();
           this.fetchPosts(); // Refresh posts list
         },
         error: (error) => {
@@ -262,10 +290,17 @@ export class PostsComponent {
       return;
     }
 
+        // If the user editing is an admin, ensure the post state is "accepted"
+      if (this.userService.isAuthorised()) {
+        this.editingPost.state = 'accepted';
+      }
+
     const updatedPost: NewPost = {
       titre: this.editingPost.titre,
       description: this.editingPost.description,
+      image: this.editingPost.image,
       link: this.editingPost.link,
+      state: this.editingPost.state || 'awaiting'
     };
 
     this.postService.updatePost(this.editingPost.id, updatedPost, this.token).subscribe({
@@ -281,52 +316,6 @@ export class PostsComponent {
     });
   }
 
-  // likePost(postId: number) {
-  //   if (!this.token) {
-  //     alert('Please log in to like a post');
-  //     return;
-  //   }
-  //   this.postService.likePost(postId, this.token).subscribe({
-  //     next: (response) => {
-  //       alert(response.message)
-  //     window.location.reload();
-  //     },
-  //     error: (error) => console.error('Error liking post:', error),
-  //   });
-  // }
-
-  // unlikePost(postId: number) {
-  //   if (!this.token) {
-  //     alert('Please log in to unlike a post');
-  //     return;
-  //   }
-  //   this.postService.unlikePost(postId, this.token).subscribe({
-  //     next: (response) => alert(response.message),
-  //     error: (error) => console.error('Error unliking post:', error),
-  //   });
-  // }
-
-  // favouritePost(postId: number) {
-  //   if (!this.token) {
-  //     alert('Please log in to favorite a post');
-  //     return;
-  //   }
-  //   this.postService.favouritePost(postId, this.token).subscribe({
-  //     next: (response) => alert(response.message),
-  //     error: (error) => console.error('Error favoriting post:', error),
-  //   });
-  // }
-
-  // unfavouritePost(postId: number) {
-  //   if (!this.token) {
-  //     alert('Please log in to unfavorite a post');
-  //     return;
-  //   }
-  //   this.postService.unfavouritePost(postId, this.token).subscribe({
-  //     next: (response) => alert(response.message),
-  //     error: (error) => console.error('Error unfavoriting post:', error),
-  //   });
-  // }
 
   // Fetch comments for a specific post
   loadComments(postId: number) {
@@ -344,7 +333,7 @@ export class PostsComponent {
 
 addComment(postId: number) {
   if (!this.token || !this.newComments[postId]) {
-    alert('Please log in and enter a comment');
+    alert('Please enter a comment');
     return;
   }
 
@@ -370,7 +359,8 @@ addComment(postId: number) {
       titre: '', 
       description: '', 
       link: undefined, 
-      image: undefined 
+      image: undefined
     };
   }
+
 }

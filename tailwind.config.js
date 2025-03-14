@@ -4,7 +4,11 @@ export default {
     "./src/**/*.{html,ts}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        times: ["Times New Roman", "Times", "serif"], // Add your custom font
+      },
+    },
   },
   plugins: [],
 };

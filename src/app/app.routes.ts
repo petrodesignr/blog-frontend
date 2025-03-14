@@ -6,11 +6,13 @@ import { RegisterComponent } from './components/register/register.component';
 import { PostsComponent } from './components/posts/posts.component';
 import { HomeComponent } from './components/home/home.component';
 import { PostDetailsComponent } from './components/post-details/post-details.component'; // Import PostDetailsComponent
+import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'posts', component: PostsComponent, canActivate: [() => inject(UserService).isAuthenticated()] },
-  { path: 'post/:id', component: PostDetailsComponent } // Add route for PostDetailsComponent
+  { path: 'post/:id', component: PostDetailsComponent }, // Add route for PostDetailsComponent
+  { path: 'admin', component: AdminPanelComponent, canActivate: [() => inject(UserService).isAuthorised()]  }
 ];

@@ -26,3 +26,9 @@
 .comment:last-child {
   border-bottom: none;
 }
+
+.titre {
+  font-size: 40px;
+  line-height: 40px;
+  font-family: 'Times New Roman', Times, serif;
+}

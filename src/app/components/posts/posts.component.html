@@ -1,97 +1,136 @@
-<div class="max-w-6xl mx-auto px-6 py-12">
+<div class="max-w-6xl mx-auto px-6 py-12 ">
   <!-- Blog Header -->
-  <h2 class="text-5xl font-bold text-center text-gray-800 mb-12 font-serif gradient-text">
-    📢 All Posts
-  </h2>
-
-  <!-- Create a New Post Button -->
-  <div class="flex justify-center mb-8">
-    <button (click)="openModal()" 
-            class="bg-blue-500 text-white py-4 px-8 text-lg rounded-xl hover:bg-blue-600 transition-all duration-300 shadow-lg">
-      ➕ Create a New Post
+  <div class="flex flex-col justify-between items-center mb-8">
+    <h2 class="text-4xl font-bold text-gray-800">
+      All Posts
+    </h2>
+    <!-- Add Post Button (Visible when there are posts) -->
+    <button *ngIf="posts.length > 0" 
+            (click)="openModal()" 
+            class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition-all duration-300 flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+      </svg>
+      Create Post
     </button>
   </div>
 
-  
+  <!-- Add Post Form Modal -->
+  <div *ngIf="isPostModalOpen" 
+       class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm">
+    <div class="bg-white shadow-2xl rounded-lg p-8 w-full max-w-2xl mx-auto transform transition-all duration-300">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-2xl font-semibold text-gray-800">Create a New Post</h3>
+        <button (click)="closeModal()" class="text-gray-500 hover:text-gray-700">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
 
+      <div class="space-y-5">
+        <div>
+          <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+          <input [(ngModel)]="newPost.titre" id="title" placeholder="Enter a catchy title"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm" />
+        </div>
 
- <!-- Add Post Form Modal (Now Always on Top) -->
-<div *ngIf="isPostModalOpen" 
-class="fixed inset-0 bg-gray-600 bg-opacity-60 z-50 flex items-center justify-center">
-<div class="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-2xl mx-auto transform transition-all duration-300">
-<h3 class="text-2xl font-semibold text-gray-700 mb-6">Create a New Post</h3>
+        <div>
+          <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+          <editor [(ngModel)]="newPost.description" [init]="tinymceInit"></editor>
+        </div>
 
-<div class="space-y-5">
- <input [(ngModel)]="newPost.titre" placeholder="Title"
-        class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm" />
+        <div>
+          <label for="link" class="block text-sm font-medium text-gray-700 mb-1">Link (optional)</label>
+          <input [(ngModel)]="newPost.link" id="link" placeholder="https://example.com"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm" />
+        </div>
 
-<p class="text-gray-600">Description</p>
+        <div>
+          <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Featured Image</label>
+          <input type="file" id="image" (change)="onFileSelected($event)" accept="image/*"
+                class="w-full text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer shadow-sm" />
+        </div>
 
-<editor [(ngModel)]="newPost.description" [init]="tinymceInit"></editor>
-
- <input [(ngModel)]="newPost.link" placeholder="Link (optional)"
-        class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm" />
-
- <input type="file" (change)="onFileSelected($event)" accept="image/*"
-        class="w-full text-gray-600 file:mr-4 file:py-3 file:px-5 file:rounded-xl file:border-0 file:bg-blue-400 file:text-white hover:file:bg-blue-500 cursor-pointer shadow-sm" />
-
- <div class="flex space-x-4">
-   <button (click)="addPost()"
-           class="flex-1 bg-blue-500 text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition-all duration-300 shadow-md">
-      Add Post
-   </button>
-   <button (click)="closeModal()"
-           class="flex-1 bg-gray-200 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-300 transition-all duration-300 shadow-md">
-      Cancel
-   </button>
- </div>
-</div>
-</div>
-</div>
-
+        <div class="flex space-x-4 pt-4">
+          <button (click)="addPost()"
+                  class="flex-1 bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-all duration-300 shadow-md">
+            Publish Post
+          </button>
+          <button (click)="closeModal()"
+                  class="flex-1 bg-gray-200 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-300 transition-all duration-300 shadow-md">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Responsive Post Cards -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
     <div *ngFor="let post of posts"
-         class="bg-white shadow-xl rounded-2xl overflow-hidden hover:shadow-2xl transition-shadow duration-500 transform hover:-translate-y-2 w-full max-w-2xl mx-auto">
+         class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-all duration-500 border border-gray-100">
 
       <!-- Post Header -->
-      <div class="p-8 bg-blue-100 rounded-t-2xl">
-        <h3 class="text-3xl font-semibold text-gray-800 truncate">{{ post.titre }}</h3>
+      <div class="p-6 bg-blue-50 border-b border-gray-100">
+        <div class="flex items-center justify-between mb-2">
+          <h3 *ngIf="!isAuth" class="text-sm font-medium px-3 py-1 rounded-full" 
+              [ngClass]="{'bg-green-100 text-green-800': post.state === 'accepted', 
+                         'bg-red-100 text-red-800': post.state === 'refused',
+                         'bg-yellow-100 text-yellow-800': post.state === 'awaiting'}">
+            {{post.state}}
+          </h3>
+          <span class="text-sm text-gray-500">{{post.createdAt | timeAgo}}</span>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800">
+          {{ post.titre }}
+        </h2>
       </div>
 
       <!-- Post Content -->
-      <div class="p-8">
-        <p class="text-gray-700 text-lg mb-6" [innerHTML]="post.description">{{ post.description }}</p>
+      <div class="p-6">
+        <div class="prose max-w-none text-gray-700 mb-6" [innerHTML]="post.description"></div>
 
         <img *ngIf="post.imageUrl" [src]="post.imageUrl" alt="Post Image"
-             class="w-full h-96 object-cover rounded-xl mb-6 shadow-md" />
+             class="w-full h-80 object-cover rounded-lg mb-6 shadow-sm" />
 
         <a *ngIf="post.link" [href]="post.link" target="_blank"
-           class="text-blue-500 hover:underline text-lg font-medium">
-          🔗 Read more
+           class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium">
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+             <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd" />
+           </svg>
+           Read more
         </a>
 
-        <p>{{post.createdAt | timeAgo}}</p>
-
         <!-- Edit Form -->
-        <div *ngIf="editingPost?.id === post.id" class="mt-6 space-y-5">
-          <input [(ngModel)]="editingPost!.titre" placeholder="Title"
-                 class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm" />
+        <div *ngIf="editingPost?.id === post.id" class="mt-8 space-y-4 border p-4 rounded-lg bg-gray-50">
+          <h4 class="font-medium text-gray-800">Edit Post</h4>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+            <input [(ngModel)]="editingPost!.titre" placeholder="Title"
+                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
 
-          <textarea [(ngModel)]="editingPost!.description" placeholder="Description"
-                    class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm"></textarea>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+            <textarea [(ngModel)]="editingPost!.description" placeholder="Description" rows="4"
+                      class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+          </div>
 
-          <input [(ngModel)]="editingPost!.link" placeholder="Link (optional)"
-                 class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm" />
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Link</label>
+            <input [(ngModel)]="editingPost!.link" placeholder="Link (optional)"
+                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
 
-          <div class="flex space-x-4">
+          <div class="flex space-x-4 pt-2">
             <button (click)="updatePost()"
-                    class="flex-1 bg-blue-500 text-white py-3 rounded-xl hover:bg-blue-600 transition-all duration-300 shadow-md">
-               Save
+                    class="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-md">
+               Save Changes
             </button>
             <button (click)="editingPost = null"
-                    class="flex-1 bg-gray-200 text-gray-700 py-3 rounded-xl hover:bg-gray-300 transition-all duration-300 shadow-md">
+                    class="flex-1 bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300 transition-all duration-300">
                Cancel
             </button>
           </div>
@@ -100,55 +139,69 @@ class="fixed inset-0 bg-gray-600 bg-opacity-60 z-50 flex items-center justify-ce
 
       <!-- Post Actions -->
       <div *ngIf="userService.isAuthenticated()"
-           class="p-6 flex justify-between items-center border-t border-gray-200">
-        <button (click)="deletePost(post.id)" class="text-red-500 hover:text-red-600 font-medium"> Delete</button>
-        <button (click)="startEditing(post)" class="text-blue-500 hover:text-blue-600 font-medium"> Edit</button>
+           class="px-6 py-4 flex justify-between items-center border-t border-gray-100 bg-gray-50">
+        <div class="flex space-x-4">
+          <button (click)="deletePost(post.id)" class="text-red-600 hover:text-red-800 font-medium flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+            Delete
+          </button>
+          <button (click)="startEditing(post)" class="text-blue-600 hover:text-blue-800 font-medium flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M13.586 3.586a2 2 0 112.828 2.828l-10 10a2 2 0 01-.545.545l-2.828-2.828a2 2 0 01.545-.545l10-10z" />
+              <path d="M17.414 1.586a2 2 0 00-2.828 0l-10 10a2 2 0 00-.545.545l2.828 2.828a2 2 0 00.545-.545l10-10a2 2 0 000-2.828z" />
+            </svg>
+            Edit
+          </button>
+        </div>
         
         <button (click)="toggleLike(post)"
         class="text-lg font-semibold transition duration-300"
                 [ngClass]="post.isLiked ? 'text-red-500' : 'text-gray-600'">
           {{ post.isLiked ? '❤️' : '🤍 ' }}
         </button>
-        <!-- <button (click)="favouritePost(post.id)" class="text-yellow-500 hover:text-yellow-600"> Favourite</button>
-        <button (click)="unfavouritePost(post.id)" class="text-yellow-500 hover:text-yellow-600"> Unfavourite</button> -->
       </div>
 
-      <div *ngIf="comments[post.id] && comments[post.id].length > 0">
-        <div *ngFor="let comment of comments[post.id]">
-          <div class="comment-header">
-            <strong>{{ comment.nom }} {{ comment.prenom }}</strong>
-            <!-- Display the time ago format -->
-            <span class="comment-time">{{ comment.createdAt | timeAgo }}</span>
-          </div>
-          <div class="comment-body">
-            {{ comment.commentaire }}
+      <!-- Comments Display -->
+      <div *ngIf="comments[post.id] && comments[post.id].length > 0" class="px-6 py-4 border-t border-gray-100">
+        <h4 class="font-medium text-gray-700 mb-3">Comments ({{ comments[post.id].length }})</h4>
+        <div class="space-y-4">
+          <div *ngFor="let comment of comments[post.id]" class="bg-gray-50 rounded-lg p-3">
+            <div class="flex justify-between items-center mb-2">
+              <span class="font-medium text-gray-800">{{ comment.nom }} {{ comment.prenom }}</span>
+              <span class="text-xs text-gray-500">{{ comment.createdAt | timeAgo }}</span>
+            </div>
+            <p class="text-gray-700">{{ comment.commentaire }}</p>
           </div>
         </div>
       </div>
       
-      
       <!-- Comment Section -->
-      <div class="p-6 border-t border-gray-200">
-        <input [(ngModel)]="newComments[post.id]"
-               placeholder="Add a comment"
-               class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4 shadow-sm"
-               *ngIf="userService.isAuthenticated()">
+      <div *ngIf="userService.isAuthenticated()" class="p-6 border-t border-gray-100">
+        <div class="flex items-center space-x-3">
+          <input [(ngModel)]="newComments[post.id]"
+                placeholder="Add a comment..."
+                class="flex-grow p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
 
-        <button (click)="addComment(post.id)"
-                class="bg-blue-500 text-white py-3 px-6 rounded-xl hover:bg-blue-600 transition-all duration-300 shadow-md"
-                *ngIf="userService.isAuthenticated()">
-          Comment
-        </button>
+          <button (click)="addComment(post.id)"
+                  class="bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-all duration-300 whitespace-nowrap">
+            Post
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<style>
-  .gradient-text {
-    background: linear-gradient(90deg, #a8edea 0%, #fed6e3 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-</style>
+  <!-- Empty State -->
+  <div *ngIf="posts.length === 0" class="text-center py-16">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+    </svg>
+    <h3 class="text-xl font-medium text-gray-700 mb-2">No posts yet</h3>
+    <p class="text-gray-500 mb-6">Be the first to share something interesting!</p>
+    <button (click)="openModal()" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition-all duration-300">
+      Create a Post
+    </button>
+  </div>
+</div>

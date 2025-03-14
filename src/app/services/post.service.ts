@@ -24,6 +24,15 @@ export interface NewPost {
   image?: File; // File object for image uploads
 }
 
+// Interface for creating/updating posts without ID and userId (handled by backend)
+export interface AddPost {
+  titre: string;
+  description: string;
+  link?: string;
+  image?: File; // File object for image uploads
+  state?: string;
+}
+
 export interface postLiked {
   postId: number;
 }
@@ -51,6 +60,14 @@ export class PostService {
     });
   }
 
+
+  getActivePosts(state: string): Observable<{ message: string; list: Post[] }> { 
+    return this.http.request<{ message: string; list: Post[] }>(
+        'GET',
+        `${this.apiUrl}/active?state=${state}`,
+    );
+}
+
   // Fetch all posts
   getPosts(): Observable<{ message: string; list: Post[] }> {
     return this.http.get<{ message: string; list: Post[] }>(`${this.apiUrl}/getAll`);
@@ -70,28 +87,26 @@ export class PostService {
   }
 
   // Create a new post (with optional image)
-  createPost(post: NewPost, token: string): Observable<{ message: string }> {
+  createPost(post: AddPost, token: string): Observable<{ message: string }> {
     const headers = this.getAuthHeaders(token);
-    const formData = new FormData();
-    formData.append('titre', post.titre);
-    formData.append('description', post.description);
-    if (post.link) formData.append('link', post.link);
-    if (post.image) formData.append('image', post.image);
 
-    return this.http.post<{ message: string }>(`${this.apiUrl}/add`, formData, { headers });
+    return this.http.post<{ message: string }>(`${this.apiUrl}/add`, post, { headers });
   }
 
   // Update an existing post (with optional image)
-  updatePost(id: number, post: NewPost, token: string): Observable<{ message: string }> {
+  updatePost(id: number, post: AddPost, token: string): Observable<{ message: string }> {
     const headers = this.getAuthHeaders(token);
-    const formData = new FormData();
-    formData.append('id', id.toString());
-    formData.append('titre', post.titre);
-    formData.append('description', post.description);
-    if (post.link) formData.append('link', post.link);
-    if (post.image) formData.append('image', post.image);
 
-    return this.http.put<{ message: string }>(`${this.apiUrl}/update`, formData, { headers });
+    const updatedPost = {
+      'id': id,
+      'titre': post.titre,
+      'description': post.description,
+      'image': post?.image,
+      'link': post?.link,
+      'state': post?.state
+    }
+
+    return this.http.put<{ message: string }>(`${this.apiUrl}/update`, updatedPost, { headers });
   }
 
   // Delete a post
@@ -151,5 +166,9 @@ export class PostService {
   // Get comments for a post
   getPostComments(postId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/comments/${postId}`);
+  }
+
+  changePostStatus(state: string, postId: number):Observable<any> {
+    return this.http.put(`${this.apiUrl}/state/${state}/${postId}`, {state: state, postId: postId});
   }
 }

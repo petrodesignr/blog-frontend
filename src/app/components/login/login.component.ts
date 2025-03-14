@@ -28,7 +28,7 @@ export class LoginComponent {
     this.userService.login(this.user).subscribe({
       next: (response) => {
         this.userService.saveToken(response.data);
-        this.router.navigate(['/posts']);
+        this.router.navigate(['/']);
       },
       error: () => {
         alert('Login failed');

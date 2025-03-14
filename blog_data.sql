@@ -33,11 +33,9 @@ CREATE TABLE `comments` (
   `userId` int(11) NOT NULL,
   `commentaire` text NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+);
 
---
--- Dumping data for table `comments`
---
+
 
 INSERT INTO `comments` (`id`, `postId`, `userId`, `commentaire`, `createdAt`) VALUES
 (1, 1, 1, 'This is a test comment', '2025-02-26 17:54:47'),
@@ -47,15 +45,12 @@ INSERT INTO `comments` (`id`, `postId`, `userId`, `commentaire`, `createdAt`) VA
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `favourites`
---
 
 CREATE TABLE `favourites` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
   `postId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+);
 
 -- --------------------------------------------------------
 
@@ -92,6 +87,7 @@ CREATE TABLE `posts` (
   `link` varchar(255) DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `isLiked` tinyint(1) NOT NULL
+  -- state varchar default awaiting
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -135,12 +131,13 @@ CREATE TABLE `users` (
   `prenom` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL
+  -- role varchar default user
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
-
+-- un user admin
 INSERT INTO `users` (`id`, `nom`, `prenom`, `email`, `password`) VALUES
 (1, 'tester', 'test', 'tester@test.com', '$2a$05$3oSrJcH492MYT6.0qrNwFeFMyuQNtu/K8e0uSxYhYAyeAj6hesGUe'),
 (2, 'marko', 'dram', 'marko@test.com', '$2a$05$7XTy4kCZxDTap5YBWkdzb.FGR.cdndtY5yNyHNiT4Z.tUcgQ..b1W'),
